@@ -20,7 +20,14 @@ const Input = ({
   // Destructuring the register
   const { onChange, onBlur, name, ref } = register(id);
 
-  const inputValue = getValues(id) ? getValues(id) : "";
+  const inputValue =
+    getValues(id) && type !== "number"
+      ? getValues(id)
+      : getValues(id) && type === "number"
+      ? Number(getValues(id))
+      : type === "number"
+      ? 0
+      : "";
 
   // States
   const [value, setValue] = useState(defaultValue ? defaultValue : inputValue);
@@ -29,11 +36,15 @@ const Input = ({
 
   // Validations
   const className =
-    !errors && value !== "" && login
+    !errors &&
+    login &&
+    ((type === "number" && value !== 0) || (type !== "number" && value !== ""))
       ? "done"
       : errors
       ? "error"
-      : !errors && value !== ""
+      : !errors &&
+        ((type === "number" && value !== 0) ||
+          (type !== "number" && value !== ""))
       ? "sucess"
       : "";
 
@@ -41,7 +52,11 @@ const Input = ({
 
   // functions
   const showPassword = (showPass: boolean): ReactNode => {
-    if (value !== "" && showPass) {
+    if (
+      ((type === "number" && value !== 0) ||
+        (type !== "number" && value !== "")) &&
+      showPass
+    ) {
       const whichEye =
         show === false ? (
           <EyeSlash size={22} color="#030303" />
@@ -72,7 +87,11 @@ const Input = ({
         value={value}
         type={inputType}
         onChange={(e) => {
-          setValue(e.target.value);
+          if (type === "text" || type === "password") {
+            setValue(e.target.value);
+          } else {
+            setValue(Number(e.target.value));
+          }
           onChange(e);
         }}
         onBlur={onBlur}

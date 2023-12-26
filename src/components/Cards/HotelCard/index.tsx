@@ -1,5 +1,5 @@
 import { useAuth, useHotel } from "../../../contexts";
-import { iHotel } from "../../../interface";
+// import { iHotel } from "../../../interface";
 import { StyledHotelCard } from "./style";
 
 interface iHotelCardProps {

@@ -20,6 +20,10 @@ export const StyledRoomCard = styled.li`
 
 export const BoxImage = styled.figure`
   display: flex;
+  width: 128px;
+  height: 67px;
+  min-height: 67px;
+
   border-radius: 5px;
 
   img {
@@ -47,11 +51,11 @@ export const SpanStatus = styled.span<{ $status: string }>`
   font-size: 10px;
   color: ${({ $status }) =>
     $status === "Free"
-      ? "green"
+      ? "var(--btn-add)"
       : $status === "Occupied"
-      ? "red"
+      ? "var(--alert-1)"
       : $status === "Under maintenance"
-      ? "yellow"
+      ? "var(--btn-edit)"
       : $status === "Cleaning" && "blue"};
 `;
 
@@ -78,6 +82,11 @@ export const BoxButtons = styled.div`
 
   :last-child {
     padding: 0;
-    font-size: 8px;
+    /* font-size: 8.5px; */
+    font-size: 9.5px;
+  }
+
+  button {
+    width: 57px;
   }
 `;

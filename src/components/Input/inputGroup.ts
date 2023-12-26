@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 interface iInputGroup {
   className: String;
-  $inputValue: string;
+  $inputValue: string | number;
 }
 const InputGroup = styled.div<iInputGroup>`
   position: relative;
@@ -35,13 +35,19 @@ const InputGroup = styled.div<iInputGroup>`
     transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
     ${({ $inputValue, className }) => css`
-      transform: ${$inputValue === ""
+      transform: ${(typeof $inputValue === "string" && $inputValue === "") ||
+      (typeof $inputValue === "number" && $inputValue === 0)
         ? "translateY(1rem)"
         : " translateY(-50%) scale(0.8)"};
-      background-color: ${$inputValue === ""
+      background-color: ${(typeof $inputValue === "string" &&
+        $inputValue === "") ||
+      (typeof $inputValue === "number" && $inputValue === 0)
         ? "transparent"
         : "var(--primary-normal)"};
-      padding: ${$inputValue !== "" ? "0 0.2em" : 0};
+      padding: ${(typeof $inputValue === "string" && $inputValue !== "") ||
+      (typeof $inputValue === "number" && $inputValue !== 0)
+        ? "0 0.2em"
+        : 0};
       color: ${className === "error"
         ? "#E2142D"
         : className === "sucess"

@@ -1,10 +1,11 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const BoxChoice = styled.div<{ $roomActive: boolean }>`
   z-index: 0;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 3px;
 
   width: 90%;
   height: 30px;
@@ -13,27 +14,34 @@ export const BoxChoice = styled.div<{ $roomActive: boolean }>`
   padding-right: 7px;
   margin-top: 8rem;
 
-  div {
-    display: flex;
-    gap: 3px;
+  h3 {
+    border-radius: 1px;
+    padding-bottom: 5px;
+    width: 70px;
+    text-align: center;
 
-    h3 {
-      border-bottom: 2px solid
-        ${({ $roomActive }) => (!$roomActive ? "white" : "#858585")};
-      color: ${({ $roomActive }) => (!$roomActive ? "white" : "#858585")};
-      border-radius: 1px;
-      padding-bottom: 5px;
-      width: 70px;
-      text-align: center;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+    cursor: pointer;
+    transition: 0.3s;
 
-    :last-child {
-      color: ${({ $roomActive }) => ($roomActive ? "white" : "#858585")};
-      border-bottom: 2px solid
-        ${({ $roomActive }) => ($roomActive ? "white" : "#858585")};
-    }
+    ${({ $roomActive }) => css`
+      border-bottom: 2px solid ${!$roomActive ? "white" : "#858585"};
+      color: ${!$roomActive ? "white" : "#858585"};
+
+      &:hover {
+        filter: ${$roomActive && "brightness(135%)"};
+      }
+    `}
+  }
+
+  :last-child {
+    ${({ $roomActive }) => css`
+      color: ${$roomActive ? "white" : "#858585"};
+      border-bottom: 2px solid ${$roomActive ? "white" : "#858585"};
+
+      &:hover {
+        filter: ${!$roomActive ? "brightness(135%)" : "unset"};
+      }
+    `}
   }
 `;
 

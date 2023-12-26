@@ -107,6 +107,19 @@ export interface iRoom {
   full_url5: string;
 }
 
+export interface iUpdateRoom {
+  number?: number;
+  quantity?: number;
+  status?: string;
+  departure_date?: string | null;
+  guest?: string | null;
+  full_url?: string;
+  full_url2?: string;
+  full_url3?: string;
+  full_url4?: string;
+  full_url5?: string;
+}
+
 export interface iReservation {
   id: string;
   quantity: number;
