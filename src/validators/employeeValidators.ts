@@ -41,9 +41,3 @@ export const employeeSchemaUpdateForm = z
   });
 
 export type TEmployeeUpdateFormData = z.infer<typeof employeeSchemaUpdateForm>;
-
-export const employeeSchemaLogin = z.object({
-  username: z.string(),
-  password: z.string(),
-});
-export type TEmployeeLonginData = z.infer<typeof employeeSchemaLogin>;

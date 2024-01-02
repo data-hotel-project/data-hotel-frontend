@@ -1,50 +1,64 @@
-import { createContext, useState } from "react";
-import { IEmployeeContext } from "./@types";
-import { api } from "../../server/Api";
+import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { IChildrenProps, iEmployee } from "../../interface";
+import { IChildrenProps, iEmployee } from "../../assets/interface";
+import { api } from "../../server/Api";
 import {
   TEmployeeFormData,
-  TEmployeeLonginData,
   TEmployeeUpdateFormData,
 } from "../../validators/employeeValidators";
-import { useAuth } from "..";
+import { useHotel } from "../HotelContext";
+import { IEmployeeContext } from "./@types";
+import { TAuthLoginData } from "../../validators/authValidators";
+import { useAuth } from "../AuthContext";
 
 export const EmployeeContext = createContext<IEmployeeContext>(
   {} as IEmployeeContext
 );
 
 export const EmployeeProvider = ({ children }: IChildrenProps) => {
-  const { setUser, token, userId, navigate } = useAuth();
+  const { setUser, token, userId, navigate, hotelId, getLoggedUser } =
+    useAuth();
+  const { listRoomsByHotel } = useHotel();
 
   const [employee, setEmployee] = useState<iEmployee | null>(null);
   const [employees, setEmployees] = useState<iEmployee[] | null>(null);
 
-  const loginEmployee = async (formData: TEmployeeLonginData) => {
+  useEffect(() => {
+    const execute = async () => {
+      if (hotelId) {
+        await listRoomsByHotel(hotelId);
+      }
+    };
+
+    execute();
+  }, [hotelId]);
+
+  const loginEmployee = async (formData: TAuthLoginData) => {
     try {
       const response = await api.post("/employee/login/", formData);
       setUser(response.data.user);
+
       localStorage.setItem("@DataHotel:TOKEN", response.data.access);
       localStorage.setItem("@DataHotel:userID", response.data.user.id);
 
       toast.success("Login successfully");
-      navigate("/");
+      getLoggedUser();
     } catch (error) {
       console.log(error);
-      toast.error("username or password invalid");
+      toast.error("Username or password invalid");
     }
   };
 
   const createEmployee = async (formData: TEmployeeFormData) => {
     try {
-      const response = await api.post("/employee/", formData, {
+      await api.post("/employee/", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       toast.success("Successful registration");
-      navigate("employee/login");
+      navigate("login");
     } catch (error) {
       console.log(error);
     }
@@ -84,7 +98,7 @@ export const EmployeeProvider = ({ children }: IChildrenProps) => {
 
   const deleteEmployee = async () => {
     try {
-      const response = await api.delete(`/employee/${userId}`, {
+      await api.delete(`/employee/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -115,4 +129,16 @@ export const EmployeeProvider = ({ children }: IChildrenProps) => {
       {children}
     </EmployeeContext.Provider>
   );
+};
+
+export const useEmployee = () => {
+  const employeeContext = useContext(EmployeeContext);
+
+  if (!employeeContext) {
+    throw new Error(
+      "useEmployee deve ser usado dentro de um provedor EmployeeContext"
+    );
+  }
+
+  return employeeContext;
 };

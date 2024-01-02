@@ -1,12 +1,12 @@
 import styled, { css } from "styled-components";
-import { iButtonStyledProps } from "../../interface";
+import { iButtonStyledProps } from "../../assets/interface";
 
 export const StyledButton = styled.button<iButtonStyledProps>`
   font-family: var(--font-family-3); // ajustarr
   font-weight: 600;
   border-radius: 4px;
   text-decoration: none;
-  transition: background-color 0.2s;
+  transition: background-color 0.4s;
 
   ${({ $backgroundColor, $fontColor, size, $borderColor }) => css`
     background-color: ${$backgroundColor || "var(--primary-dark-active)"};

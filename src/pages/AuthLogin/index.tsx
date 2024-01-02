@@ -2,11 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Background from "../../components/Background";
-import Input from "../../components/Input";
 import Button from "../../components/Button";
-import { useEmployee, useGuest } from "../../contexts";
-import { iLoginRequest } from "../../interface";
-import { guestSchemaLogin } from "../../validators/guestValidators";
+import Input from "../../components/Input";
+import { useEmployee } from "../../contexts/EmployeeContext";
+import { useGuest } from "../../contexts/GuestContext";
+import { iLoginRequest } from "../../assets/interface";
+import { authSchemaLogin } from "../../validators/authValidators";
 import { BoxIsEmployee, StyledBody } from "./style";
 
 const Login = () => {
@@ -20,7 +21,7 @@ const Login = () => {
     getValues,
     formState: { errors },
   } = useForm<iLoginRequest>({
-    resolver: zodResolver(guestSchemaLogin),
+    resolver: zodResolver(authSchemaLogin),
   });
 
   const onSubmit = async (data: iLoginRequest) => {

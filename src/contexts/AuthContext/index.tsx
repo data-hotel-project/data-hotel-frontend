@@ -1,6 +1,6 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IChildrenProps, iEmployee, iGuest } from "../../interface";
+import { IChildrenProps, iEmployee, iGuest } from "../../assets/interface";
 import { iAuthProviderData } from "./@types";
 import { api } from "../../server/Api";
 import { toast } from "react-toastify";
@@ -35,14 +35,17 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
         setUser(response.data.user);
 
         if (token && response.data.user.is_superuser == true) {
-          navigate("/adminDashboard");
           toast.success("Login successfully");
+
+          navigate("/adminDashboard");
         } else if (token && response.data.user.is_staff == true) {
           localStorage.setItem("@DataHotel:hotelID", response.data.hotel);
+
           navigate("/employeeDashboard");
         } else if (token && response.data.user.is_staff == false) {
-          navigate("/guestDashboard");
           toast.success("Login successfully");
+
+          navigate("/guestDashboard");
         } else {
           navigate("/");
         }
@@ -83,4 +86,14 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = () => {
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    throw new Error("useAuth deve ser usado dentro de um provedor AuthContext");
+  }
+
+  return authContext;
 };

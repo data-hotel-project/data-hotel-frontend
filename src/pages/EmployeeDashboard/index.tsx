@@ -3,48 +3,24 @@ import { StyledNoisy } from "../../components/Background/style";
 import { StyledDashboard } from "../GuestDashboard/style";
 import { BoxChoice, Container, UlContainer } from "./style";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import Button from "../../components/Button";
 import { RoomCard } from "../../components/Cards/RoomCard";
+import UpdateRoomForm from "../../components/Forms/UpdateRoomForm";
 import Header from "../../components/Header";
-import Input from "../../components/Input";
 import { Modal } from "../../components/Modal";
-import { useAuth, useHotel } from "../../contexts";
-import { iUpdateRoom } from "../../interface";
-import { roomSchemaUpdateForm } from "../../validators/roomValidators";
+import { iRoom } from "../../assets/interface";
+import { useHotel } from "../../contexts/HotelContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 export const EmployeeDashboard = () => {
-  const { hotelId } = useAuth();
+  const { hotelId, showModal, setShowModal } = useAuth();
   const { listRoomsByHotel, rooms } = useHotel();
 
+  const [currentRoom, setCurrentRoom] = useState<iRoom>({} as iRoom);
   const [roomActive, setRoomActive] = useState<boolean>(true);
 
   useEffect(() => {
     listRoomsByHotel(hotelId);
   }, []);
-
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors },
-  } = useForm<iUpdateRoom>({
-    resolver: zodResolver(roomSchemaUpdateForm),
-    // resolver: zodResolver(
-    //   roomSchemaUpdateForm.transform((data) => ({
-    //     ...data,
-    //     number:
-    //       typeof data.number === "string" ? Number(data.number) : data.number,
-    //   }))
-    // ),
-  });
-
-  const onSubmit = async (data: iUpdateRoom) => {
-    console.log("AAAAAAAA", data);
-    console.log("Data before submission:", data);
-    console.log("Type of 'number' field:", typeof data.number);
-  };
 
   return (
     <StyledDashboard>
@@ -62,8 +38,15 @@ export const EmployeeDashboard = () => {
           </BoxAdd> */}
 
           <UlContainer>
-            {rooms.map((room) => {
-              return <RoomCard key={room.id} room={room} />;
+            {rooms?.map((room) => {
+              return (
+                <RoomCard
+                  key={room.id}
+                  room={room}
+                  setShowModal={setShowModal}
+                  setCurrentRoom={setCurrentRoom}
+                />
+              );
             })}
 
             {/* {Array.from({ length: 20 }, (_, i) => (
@@ -74,20 +57,11 @@ export const EmployeeDashboard = () => {
       ) : (
         <Container>CLIENTS</Container>
       )}
-      {/* <Modal title="Update Room">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            id="number"
-            label="Number"
-            type="number"
-            errorMessage={errors.number?.message}
-            register={register}
-            getValues={getValues}
-          />
-
-          <Button size="medium">Save</Button>
-        </form>
-      </Modal> */}
+      {showModal === "updateRoom" && (
+        <Modal title="Update Room">
+          <UpdateRoomForm currentRoom={currentRoom} />
+        </Modal>
+      )}
     </StyledDashboard>
   );
 };

@@ -1,8 +1,8 @@
 import { Eye, EyeSlash } from "phosphor-react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { ErrorMessage } from "../ParagraphError";
 import InputGroup from "./inputGroup";
-import { iInputProps } from "../../interface";
+import { iInputProps } from "../../assets/interface";
 
 const Input = ({
   errorMessage,
@@ -20,6 +20,26 @@ const Input = ({
   // Destructuring the register
   const { onChange, onBlur, name, ref } = register(id);
 
+  const [labelBackground, setLabelBackground] = useState<string | null>();
+  const [labelColor, setLabelColor] = useState<string | null>();
+  const [inputColor, setInputColor] = useState<string | null>();
+
+  useEffect(() => {
+    const currentInput = document.getElementById(id) as HTMLInputElement;
+
+    if (currentInput) {
+      const styleForm = getComputedStyle(currentInput.form!);
+
+      const backgroundLabel = styleForm.getPropertyValue("--labelbackground");
+      const colorLabel = styleForm.getPropertyValue("--labelcolor");
+      const colorInput = styleForm.getPropertyValue("--inputscolor");
+
+      setLabelBackground(backgroundLabel);
+      setLabelColor(colorLabel);
+      setInputColor(colorInput);
+    }
+  }, []);
+
   const inputValue =
     getValues(id) && type !== "number"
       ? getValues(id)
@@ -31,6 +51,7 @@ const Input = ({
 
   // States
   const [value, setValue] = useState(defaultValue ? defaultValue : inputValue);
+
   const [show, setShow] = useState(false);
   const [passType, setPassType] = useState("password");
 
@@ -44,8 +65,9 @@ const Input = ({
       ? "error"
       : !errors &&
         ((type === "number" && value !== 0) ||
-          (type !== "number" && value !== ""))
-      ? "sucess"
+          (type !== "number" && value !== "") ||
+          typeof inputValue === "object")
+      ? "success"
       : "";
 
   const inputType = showPass ? passType : type;
@@ -80,18 +102,27 @@ const Input = ({
   };
 
   return (
-    <InputGroup className={className} $inputValue={value} {...rest}>
+    <InputGroup
+      className={className}
+      $inputValue={inputValue}
+      $value={value}
+      $labelbackground={labelBackground}
+      $labelcolor={labelColor}
+      $inputcolor={inputColor}
+      {...rest}
+    >
       <input
         autoComplete="off"
         id={id}
-        value={value}
+        value={inputType === "file" ? undefined : value}
         type={inputType}
         onChange={(e) => {
-          if (type === "text" || type === "password") {
-            setValue(e.target.value);
+          if (type === "number") {
+            setValue(e.target.value.replace(/[^0-9]/g, ""));
           } else {
-            setValue(Number(e.target.value));
+            setValue(e.target.value);
           }
+
           onChange(e);
         }}
         onBlur={onBlur}
@@ -99,7 +130,7 @@ const Input = ({
         ref={ref}
         {...rest}
       />
-      <label>{label}</label>
+      <label htmlFor={id}>{label}</label>
       {showPass ? showPassword(showPass) : null}
       {errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
     </InputGroup>

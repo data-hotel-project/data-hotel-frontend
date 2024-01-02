@@ -1,6 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { IChildrenProps, iHotel, iReservation, iRoom } from "../../interface";
+import {
+  IChildrenProps,
+  iHotel,
+  iReservation,
+  iRoom,
+} from "../../assets/interface";
 import { api } from "../../server/Api";
 import {
   THotelCreateFormData,
@@ -14,8 +19,8 @@ import {
   TRoomCreateData,
   TRoomUpdateData,
 } from "../../validators/roomValidators";
+import { useAuth } from "../AuthContext";
 import { IHotelContext } from "./@types";
-import { useAuth } from "..";
 
 export const HotelContext = createContext<IHotelContext>({} as IHotelContext);
 
@@ -34,7 +39,7 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
 
   const createHotel = async (formData: THotelCreateFormData) => {
     try {
-      const response = await api.post("/hotel/", formData, {
+      await api.post("/hotel/", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -84,7 +89,7 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
 
   const deleteHotel = async (id: string) => {
     try {
-      const response = await api.delete(`/hotel/${id}`, {
+      await api.delete(`/hotel/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -97,19 +102,11 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
     }
   };
 
-  useEffect(() => {
-    listHotels();
-
-    if (hotelId) {
-      retrieveHotel(hotelId);
-    }
-  }, [token]);
-
   // ---------------------ROOM-------------------------
 
   const createRoom = async (formData: TRoomCreateData) => {
     try {
-      const response = await api.post("/room/", formData, {
+      await api.post("/room/", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -139,23 +136,29 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
     }
   };
 
-  const retrieveRoom = async () => {
+  const retrieveRoom = async (roomId: string) => {
     try {
-      const response = await api.get(`/room/${room?.id}`);
+      const response = await api.get(`/room/${roomId}`);
       setRoom(response.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updateRoom = async (formData: TRoomUpdateData) => {
+  const updateRoom = async (
+    formData: TRoomUpdateData | FormData,
+    roomId: string
+  ) => {
     try {
-      const response = await api.patch(`/room/${room?.id}`, formData, {
+      const response = await api.patch(`/room/${roomId}/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setRoom(response.data);
+      listRoomsByHotel(hotelId);
+
+      toast.success("Room updated successfully");
       navigate(`/employeeDashboard`);
     } catch (error) {
       console.log(error);
@@ -164,7 +167,7 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
 
   const deleteRoom = async () => {
     try {
-      const response = await api.delete(`/room/${room?.id}`, {
+      await api.delete(`/room/${room?.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -177,11 +180,24 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
     }
   };
 
+  useEffect(() => {
+    const execute = async () => {
+      await listHotels();
+
+      if (hotelId) {
+        await listRoomsByHotel(hotelId);
+
+        await retrieveHotel(hotelId);
+      }
+    };
+    execute();
+  }, [token, hotelId]);
+
   // ------------------RESERVATION---------------------
 
   const createReservation = async (formData: TReservationCreateData) => {
     try {
-      const response = await api.post("/reservation/", formData, {
+      await api.post("/reservation/", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -231,7 +247,7 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
 
   const deleteReservation = async () => {
     try {
-      const response = await api.delete(`/reservation/${reservation?.id}`, {
+      await api.delete(`/reservation/${reservation?.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -244,43 +260,53 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
     }
   };
 
+  const contextValues = {
+    navigate,
+    hotel,
+    setHotel,
+    hotels,
+    setHotels,
+    room,
+    setRoom,
+    rooms,
+    setRooms,
+    allRooms,
+    setAllRooms,
+    reservation,
+    setReservation,
+    reservations,
+    setReservations,
+    createHotel,
+    listHotels,
+    retrieveHotel,
+    updateHotel,
+    deleteHotel,
+    createRoom,
+    listAllRooms,
+    listRoomsByHotel,
+    retrieveRoom,
+    updateRoom,
+    deleteRoom,
+    createReservation,
+    listReservations,
+    retrieveReservation,
+    updateReservation,
+    deleteReservation,
+  };
+
   return (
-    <HotelContext.Provider
-      value={{
-        navigate,
-        hotel,
-        setHotel,
-        hotels,
-        setHotels,
-        room,
-        setRoom,
-        rooms,
-        setRooms,
-        allRooms,
-        setAllRooms,
-        reservation,
-        setReservation,
-        reservations,
-        setReservations,
-        createHotel,
-        listHotels,
-        retrieveHotel,
-        updateHotel,
-        deleteHotel,
-        createRoom,
-        listAllRooms,
-        listRoomsByHotel,
-        retrieveRoom,
-        updateRoom,
-        deleteRoom,
-        createReservation,
-        listReservations,
-        retrieveReservation,
-        updateReservation,
-        deleteReservation,
-      }}
-    >
+    <HotelContext.Provider value={contextValues}>
       {children}
     </HotelContext.Provider>
   );
+};
+
+export const useHotel = () => {
+  const hotelContext = useContext(HotelContext);
+
+  if (!hotelContext) {
+    console.error("useHotel deve ser usado dentro de um provedor HotelContext");
+  }
+
+  return hotelContext;
 };

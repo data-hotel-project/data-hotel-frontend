@@ -1,7 +1,7 @@
 import { StyledNoisy } from "../../components/Background/style";
 import { HotelCard } from "../../components/Cards/HotelCard";
 import Header from "../../components/Header";
-import { useHotel } from "../../contexts";
+import { useHotel } from "../../contexts/HotelContext";
 import {
   StyledContainer,
   StyledDashboard,

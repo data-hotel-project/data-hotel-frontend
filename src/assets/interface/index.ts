@@ -10,19 +10,18 @@ export interface iLoginRequest {
   password: string;
 }
 
-export interface iInputProps {
-  default?: string;
+export interface iInputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "defaultValue"> {
   errorMessage?: string;
   errors?: any;
   getValues: UseFormGetValues<any>;
   id: Path<any>;
   label: string;
   login?: boolean;
-  name?: string;
   register: UseFormRegister<any>;
   type: string;
   showPass?: boolean;
-  defaultValue?: string;
+  defaultValue?: string | number | readonly string[] | null | undefined;
 }
 
 export interface iButtonStyledProps {
@@ -105,6 +104,8 @@ export interface iRoom {
   full_url3: string;
   full_url4: string;
   full_url5: string;
+
+  [key: string]: string | number | null;
 }
 
 export interface iUpdateRoom {

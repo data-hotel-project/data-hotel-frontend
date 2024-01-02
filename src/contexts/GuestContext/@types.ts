@@ -1,10 +1,10 @@
 import { NavigateFunction } from "react-router-dom";
-import { iGuest } from "../../interface";
+import { iGuest } from "../../assets/interface";
 import {
   TGuestFormData,
-  TGuestLoginData,
   TGuestUpdateFormData,
 } from "../../validators/guestValidators";
+import { TAuthLoginData } from "../../validators/authValidators";
 
 export interface IGuestContext {
   navigate: NavigateFunction;
@@ -12,7 +12,7 @@ export interface IGuestContext {
   setGuest: React.Dispatch<React.SetStateAction<iGuest | null>>;
   guests: iGuest[] | null;
   setGuests: React.Dispatch<React.SetStateAction<iGuest[] | null>>;
-  loginGuest: (formData: TGuestLoginData) => Promise<void>;
+  loginGuest: (formData: TAuthLoginData) => Promise<void>;
   createGuest: (formData: TGuestFormData) => Promise<void>;
   listGuests: () => Promise<void>;
   retrieveGuest: () => Promise<void>;

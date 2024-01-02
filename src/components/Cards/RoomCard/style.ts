@@ -16,6 +16,10 @@ export const StyledRoomCard = styled.li`
   border: 1px solid var(--secondary-normal);
   border-radius: 5px;
   background-color: #151515;
+
+  .boxModal {
+    background-color: rgba(0, 0, 0, 0.25);
+  }
 `;
 
 export const BoxImage = styled.figure`

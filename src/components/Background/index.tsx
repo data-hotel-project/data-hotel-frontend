@@ -1,4 +1,4 @@
-import { IChildrenProps } from "../../interface";
+import { IChildrenProps } from "../../assets/interface";
 import { StyledBackground, StyledShadow } from "./style";
 
 const Background = ({ children }: IChildrenProps) => {

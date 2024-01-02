@@ -1,6 +1,7 @@
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { iRoom } from "../../../interface";
+import React from "react";
+import { iRoom } from "../../../assets/interface";
 import Button from "../../Button";
 import {
   BoxButtons,
@@ -14,9 +15,20 @@ import {
 
 interface iRoomCardProps {
   room: iRoom;
+  setShowModal: React.Dispatch<React.SetStateAction<string>>;
+  setCurrentRoom: React.Dispatch<React.SetStateAction<iRoom>>;
 }
 
-export const RoomCard = ({ room }: iRoomCardProps) => {
+export const RoomCard = ({
+  room,
+  setShowModal,
+  setCurrentRoom,
+}: iRoomCardProps) => {
+  const handleModalUpdate = () => {
+    setCurrentRoom(room);
+    setShowModal("updateRoom");
+  };
+
   return (
     <StyledRoomCard>
       <BoxImage>
@@ -35,7 +47,11 @@ export const RoomCard = ({ room }: iRoomCardProps) => {
         ))}
       </BoxPersons>
       <BoxButtons>
-        <Button size="small" borderColor="#bdbd23d6">
+        <Button
+          size="small"
+          borderColor="#bdbd23d6"
+          onClick={handleModalUpdate}
+        >
           Edit
         </Button>
         <Button size="small">View more</Button>

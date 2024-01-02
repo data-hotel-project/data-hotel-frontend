@@ -29,8 +29,8 @@ const GlobalStyle = createGlobalStyle`
 
         --alert-1: #CD2B31;
         --alert-2: #FDD8D8;
-        --sucess-1: #18794E;
-        --sucess-2: #CCEBD7;
+        --success-1: #18794E;
+        --success-2: #CCEBD7;
 
         --message-error: #e12525;
 

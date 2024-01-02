@@ -52,14 +52,3 @@ export const guestSchemaUpdateForm = z.object({
 });
 
 export type TGuestUpdateFormData = z.infer<typeof guestSchemaUpdateForm>;
-
-export const guestSchemaLogin = z.object({
-  username: z
-    .string()
-    .refine((value) => value.trim() !== "", "Username is required"),
-  password: z
-    .string()
-    .refine((value) => value.trim() !== "", "Password is required"),
-});
-
-export type TGuestLoginData = z.infer<typeof guestSchemaLogin>;

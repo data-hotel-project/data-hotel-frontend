@@ -4,7 +4,8 @@ import Background from "../../components/Background";
 import { HotelCard } from "../../components/Cards/HotelCard";
 import { Modal } from "../../components/Modal";
 import HotelInfo from "../../components/HotelInfo";
-import { useAuth, useHotel } from "../../contexts";
+import { useHotel } from "../../contexts/HotelContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 export const Home = () => {
   const { showModal } = useAuth();

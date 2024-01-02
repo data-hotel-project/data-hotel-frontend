@@ -1,14 +1,14 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { IGuestContext } from "./@types";
 import { api } from "../../server/Api";
 import { toast } from "react-toastify";
-import { IChildrenProps, iGuest } from "../../interface";
+import { IChildrenProps, iGuest } from "../../assets/interface";
 import {
   TGuestFormData,
-  TGuestLoginData,
   TGuestUpdateFormData,
 } from "../../validators/guestValidators";
-import { useAuth } from "..";
+import { TAuthLoginData } from "../../validators/authValidators";
+import { useAuth } from "../AuthContext";
 
 export const GuestContext = createContext<IGuestContext>({} as IGuestContext);
 
@@ -18,22 +18,24 @@ export const GuestProvider = ({ children }: IChildrenProps) => {
   const [guest, setGuest] = useState<iGuest | null>(null);
   const [guests, setGuests] = useState<iGuest[] | null>(null);
 
-  const loginGuest = async (formData: TGuestLoginData) => {
+  const loginGuest = async (formData: TAuthLoginData) => {
     try {
       const response = await api.post("/guest/login/", formData);
       setUser(response.data.user);
+
       localStorage.setItem("@DataHotel:TOKEN", response.data.access);
       localStorage.setItem("@DataHotel:userID", response.data.user.id);
+
       getLoggedUser();
     } catch (error) {
       console.log(error);
-      toast.error("username or password invalid");
+      toast.error("Username or password invalid");
     }
   };
 
   const createGuest = async (formData: TGuestFormData) => {
     try {
-      const response = await api.post("/guest/", formData);
+      await api.post("/guest/", formData);
 
       toast.success("Successful registration");
       navigate("/login");
@@ -76,7 +78,7 @@ export const GuestProvider = ({ children }: IChildrenProps) => {
 
   const deleteGuest = async () => {
     try {
-      const response = await api.delete(`/guest/${userId}`, {
+      await api.delete(`/guest/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -108,4 +110,16 @@ export const GuestProvider = ({ children }: IChildrenProps) => {
       {children}
     </GuestContext.Provider>
   );
+};
+
+export const useGuest = () => {
+  const guestContext = useContext(GuestContext);
+
+  if (!guestContext) {
+    throw new Error(
+      "useGuest deve ser usado dentro de um provedor GuestContext"
+    );
+  }
+
+  return guestContext;
 };

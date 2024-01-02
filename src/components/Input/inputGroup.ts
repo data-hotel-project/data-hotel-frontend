@@ -1,8 +1,13 @@
 import styled, { css } from "styled-components";
 interface iInputGroup {
-  className: String;
-  $inputValue: string | number;
+  className: string;
+  $inputValue: string | number | object;
+  $value: string | number;
+  $labelbackground: string | null | undefined;
+  $labelcolor: string | null | undefined;
+  $inputcolor: string | null | undefined;
 }
+
 const InputGroup = styled.div<iInputGroup>`
   position: relative;
   width: 100%;
@@ -18,13 +23,22 @@ const InputGroup = styled.div<iInputGroup>`
 
     transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
-    ${({ className }) => css`
-      color: ${className === "sucess"
-        ? "#FFF"
+    ${({ className, $inputcolor }) => css`
+      color: ${className === "success"
+        ? $inputcolor || "#FFF"
         : className === "done"
         ? "#1DA1F2"
         : "#14171A"};
     `}
+
+    &[type="number"] {
+      appearance: textfield;
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+      }
+    }
   }
 
   label {
@@ -34,27 +48,35 @@ const InputGroup = styled.div<iInputGroup>`
     pointer-events: none;
     transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
-    ${({ $inputValue, className }) => css`
-      transform: ${(typeof $inputValue === "string" && $inputValue === "") ||
-      (typeof $inputValue === "number" && $inputValue === 0)
+    ${({
+      $value,
+      className,
+      $labelbackground,
+      $labelcolor,
+      $inputValue,
+    }) => css`
+      transform: ${typeof $value === "string" &&
+      $value === "" &&
+      typeof $inputValue !== "object"
         ? "translateY(1rem)"
         : " translateY(-50%) scale(0.8)"};
-      background-color: ${(typeof $inputValue === "string" &&
-        $inputValue === "") ||
-      (typeof $inputValue === "number" && $inputValue === 0)
+      background-color: ${typeof $value === "string" &&
+      $value === "" &&
+      typeof $inputValue !== "object"
         ? "transparent"
-        : "var(--primary-normal)"};
-      padding: ${(typeof $inputValue === "string" && $inputValue !== "") ||
-      (typeof $inputValue === "number" && $inputValue !== 0)
+        : $labelbackground || "var(--primary-normal)"};
+      padding: ${(typeof $value === "string" && $value !== "") ||
+      typeof $value === "number" ||
+      typeof $inputValue === "object"
         ? "0 0.2em"
         : 0};
       color: ${className === "error"
         ? "#E2142D"
-        : className === "sucess"
+        : className === "success"
         ? "#5ea74a"
         : className === "done"
         ? "#1DA1F2"
-        : "#dcdcdc"};
+        : $labelcolor || "#dcdcdc"};
     `};
   }
 
@@ -64,7 +86,8 @@ const InputGroup = styled.div<iInputGroup>`
 
   input:focus ~ label {
     transform: translateY(-50%) scale(0.8);
-    background-color: var(--primary-normal);
+    background-color: ${({ $labelbackground }) =>
+      $labelbackground ? $labelbackground : "var(--primary-normal)"};
     padding: 0 0.2em;
   }
 
@@ -78,6 +101,13 @@ const InputGroup = styled.div<iInputGroup>`
     padding: 5px;
     display: flex;
     align-items: center;
+  }
+
+  .selectedFile {
+    display: flex;
+    color: black;
+    font-size: 12px;
+    padding: 5px 0 0 14px;
   }
 `;
 export default InputGroup;

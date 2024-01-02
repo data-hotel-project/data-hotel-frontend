@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Background from "../../components/Background";
-import Input from "../../components/Input";
 import Button from "../../components/Button";
-import { useGuest } from "../../contexts";
+import Input from "../../components/Input";
+import { useGuest } from "../../contexts/GuestContext";
 import {
   TGuestFormData,
   guestSchemaForm,

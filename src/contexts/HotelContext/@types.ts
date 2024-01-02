@@ -1,5 +1,5 @@
 import { NavigateFunction } from "react-router-dom";
-import { iHotel, iReservation, iRoom } from "../../interface";
+import { iHotel, iReservation, iRoom } from "../../assets/interface";
 import {
   THotelCreateFormData,
   THotelUpdateFormData,
@@ -37,8 +37,11 @@ export interface IHotelContext {
   createRoom: (formData: TRoomCreateData) => Promise<void>;
   listAllRooms: () => Promise<void>;
   listRoomsByHotel: (hotelId: string | null) => Promise<void>;
-  retrieveRoom: () => Promise<void>;
-  updateRoom: (formData: TRoomUpdateData) => Promise<void>;
+  retrieveRoom: (roomId: string) => Promise<void>;
+  updateRoom: (
+    formData: TRoomUpdateData | FormData,
+    roomId: string
+  ) => Promise<void>;
   deleteRoom: () => Promise<void>;
   createReservation: (formData: TReservationCreateData) => Promise<void>;
   listReservations: () => Promise<void>;

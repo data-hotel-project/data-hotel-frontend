@@ -1,10 +1,10 @@
 import { ToastContainer } from "react-toastify";
-import { AuthProvider } from "./contexts/AuthContext";
-import RoutesMain from "./routes";
 import "react-toastify/dist/ReactToastify.css";
+import { AuthProvider } from "./contexts/AuthContext";
+import { HotelProvider } from "./contexts/HotelContext";
 import { EmployeeProvider } from "./contexts/EmployeeContext";
 import { GuestProvider } from "./contexts/GuestContext";
-import { HotelProvider } from "./contexts/HotelContext";
+import RoutesMain from "./routes";
 
 function App() {
   return (
