@@ -2,7 +2,7 @@ import { Eye, EyeSlash } from "phosphor-react";
 import { ReactNode, useEffect, useState } from "react";
 import { ErrorMessage } from "../ParagraphError";
 import InputGroup from "./inputGroup";
-import { iInputProps } from "../../assets/interface";
+import { iInputProps } from "../../interface";
 
 const Input = ({
   errorMessage,
@@ -131,6 +131,10 @@ const Input = ({
         {...rest}
       />
       <label htmlFor={id}>{label}</label>
+
+      {typeof inputValue === "object" && (
+        <span className="spanImage">Choose an image</span>
+      )}
       {showPass ? showPassword(showPass) : null}
       {errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
     </InputGroup>

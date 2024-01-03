@@ -5,17 +5,23 @@ import { HotelProvider } from "./contexts/HotelContext";
 import { EmployeeProvider } from "./contexts/EmployeeContext";
 import { GuestProvider } from "./contexts/GuestContext";
 import RoutesMain from "./routes";
+import { RoomProvider } from "./contexts/RoomContext";
+import { ReservationProvider } from "./contexts/ReservationContext";
 
 function App() {
   return (
     <>
       <AuthProvider>
         <HotelProvider>
-          <EmployeeProvider>
-            <GuestProvider>
-              <RoutesMain />
-            </GuestProvider>
-          </EmployeeProvider>
+          <RoomProvider>
+            <EmployeeProvider>
+              <GuestProvider>
+                <ReservationProvider>
+                  <RoutesMain />
+                </ReservationProvider>
+              </GuestProvider>
+            </EmployeeProvider>
+          </RoomProvider>
         </HotelProvider>
       </AuthProvider>
       <ToastContainer

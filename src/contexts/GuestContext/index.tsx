@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { IGuestContext } from "./@types";
 import { api } from "../../server/Api";
 import { toast } from "react-toastify";
-import { IChildrenProps, iGuest } from "../../assets/interface";
+import { IChildrenProps, iGuest } from "../../interface";
 import {
   TGuestFormData,
   TGuestUpdateFormData,

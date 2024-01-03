@@ -6,7 +6,7 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { useEmployee } from "../../contexts/EmployeeContext";
 import { useGuest } from "../../contexts/GuestContext";
-import { iLoginRequest } from "../../assets/interface";
+import { iLoginRequest } from "../../interface";
 import { authSchemaLogin } from "../../validators/authValidators";
 import { BoxIsEmployee, StyledBody } from "./style";
 

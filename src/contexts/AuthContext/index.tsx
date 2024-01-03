@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IChildrenProps, iEmployee, iGuest } from "../../assets/interface";
+import { IChildrenProps, iEmployee, iGuest } from "../../interface";
 import { iAuthProviderData } from "./@types";
 import { api } from "../../server/Api";
 import { toast } from "react-toastify";

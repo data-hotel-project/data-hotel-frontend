@@ -1,5 +1,5 @@
 import { NavigateFunction } from "react-router-dom";
-import { iGuest } from "../../assets/interface";
+import { iGuest } from "../../interface";
 import {
   TGuestFormData,
   TGuestUpdateFormData,

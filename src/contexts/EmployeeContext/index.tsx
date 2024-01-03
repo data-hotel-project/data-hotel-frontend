@@ -1,15 +1,15 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { IChildrenProps, iEmployee } from "../../assets/interface";
+import { IChildrenProps, iEmployee } from "../../interface";
 import { api } from "../../server/Api";
+import { TAuthLoginData } from "../../validators/authValidators";
 import {
   TEmployeeFormData,
   TEmployeeUpdateFormData,
 } from "../../validators/employeeValidators";
-import { useHotel } from "../HotelContext";
-import { IEmployeeContext } from "./@types";
-import { TAuthLoginData } from "../../validators/authValidators";
 import { useAuth } from "../AuthContext";
+import { useRoom } from "../RoomContext";
+import { IEmployeeContext } from "./@types";
 
 export const EmployeeContext = createContext<IEmployeeContext>(
   {} as IEmployeeContext
@@ -18,7 +18,7 @@ export const EmployeeContext = createContext<IEmployeeContext>(
 export const EmployeeProvider = ({ children }: IChildrenProps) => {
   const { setUser, token, userId, navigate, hotelId, getLoggedUser } =
     useAuth();
-  const { listRoomsByHotel } = useHotel();
+  const { listRoomsByHotel } = useRoom();
 
   const [employee, setEmployee] = useState<iEmployee | null>(null);
   const [employees, setEmployees] = useState<iEmployee[] | null>(null);

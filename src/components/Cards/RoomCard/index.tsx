@@ -1,7 +1,7 @@
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { iRoom } from "../../../assets/interface";
+import { iRoom } from "../../../interface";
 import Button from "../../Button";
 import {
   BoxButtons,
@@ -12,18 +12,16 @@ import {
   StyledRoomCard,
   SubTitle,
 } from "./style";
+import { useAuth } from "../../../contexts/AuthContext";
 
 interface iRoomCardProps {
   room: iRoom;
-  setShowModal: React.Dispatch<React.SetStateAction<string>>;
   setCurrentRoom: React.Dispatch<React.SetStateAction<iRoom>>;
 }
 
-export const RoomCard = ({
-  room,
-  setShowModal,
-  setCurrentRoom,
-}: iRoomCardProps) => {
+export const RoomCard = ({ room, setCurrentRoom }: iRoomCardProps) => {
+  const { setShowModal } = useAuth();
+
   const handleModalUpdate = () => {
     setCurrentRoom(room);
     setShowModal("updateRoom");

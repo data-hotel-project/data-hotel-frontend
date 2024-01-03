@@ -11,6 +11,7 @@ interface iInputGroup {
 const InputGroup = styled.div<iInputGroup>`
   position: relative;
   width: 100%;
+  height: 53px;
 
   input {
     width: 100%;
@@ -30,6 +31,12 @@ const InputGroup = styled.div<iInputGroup>`
         ? "#1DA1F2"
         : "#14171A"};
     `}
+
+    &[type="file"] {
+      opacity: 0;
+      position: absolute;
+      cursor: pointer;
+    }
 
     &[type="number"] {
       appearance: textfield;
@@ -108,6 +115,27 @@ const InputGroup = styled.div<iInputGroup>`
     color: black;
     font-size: 12px;
     padding: 5px 0 0 14px;
+  }
+
+  .spanImage {
+    display: flex;
+    width: 100%;
+    height: 53px;
+    padding: 16.5px 14px;
+
+    border: 1px solid var(--secondary-normal);
+    background-color: transparent;
+    border-radius: 8px;
+
+    transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    ${({ className, $inputcolor }) => css`
+      color: ${className === "success"
+        ? $inputcolor || "#FFF"
+        : className === "done"
+        ? "#1DA1F2"
+        : "#14171A"};
+    `}
   }
 `;
 export default InputGroup;

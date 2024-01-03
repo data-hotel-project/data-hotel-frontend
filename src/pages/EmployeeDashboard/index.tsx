@@ -7,20 +7,26 @@ import { RoomCard } from "../../components/Cards/RoomCard";
 import UpdateRoomForm from "../../components/Forms/UpdateRoomForm";
 import Header from "../../components/Header";
 import { Modal } from "../../components/Modal";
-import { iRoom } from "../../assets/interface";
-import { useHotel } from "../../contexts/HotelContext";
 import { useAuth } from "../../contexts/AuthContext";
+import { useRoom } from "../../contexts/RoomContext";
+import { iRoom } from "../../interface";
 
 export const EmployeeDashboard = () => {
-  const { hotelId, showModal, setShowModal } = useAuth();
-  const { listRoomsByHotel, rooms } = useHotel();
+  const { hotelId, showModal } = useAuth();
+  const { listRoomsByHotel, rooms } = useRoom();
 
   const [currentRoom, setCurrentRoom] = useState<iRoom>({} as iRoom);
   const [roomActive, setRoomActive] = useState<boolean>(true);
 
   useEffect(() => {
-    listRoomsByHotel(hotelId);
-  }, []);
+    const execute = async () => {
+      if (hotelId) {
+        await listRoomsByHotel(hotelId);
+      }
+    };
+
+    execute();
+  }, [hotelId]);
 
   return (
     <StyledDashboard>
@@ -43,15 +49,10 @@ export const EmployeeDashboard = () => {
                 <RoomCard
                   key={room.id}
                   room={room}
-                  setShowModal={setShowModal}
                   setCurrentRoom={setCurrentRoom}
                 />
               );
             })}
-
-            {/* {Array.from({ length: 20 }, (_, i) => (
-              <StyledRoomCard key={i}></StyledRoomCard>
-            ))} */}
           </UlContainer>
         </Container>
       ) : (

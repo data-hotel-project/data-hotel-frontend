@@ -2,7 +2,7 @@ import {
   TEmployeeFormData,
   TEmployeeUpdateFormData,
 } from "../../validators/employeeValidators";
-import { iEmployee } from "../../assets/interface";
+import { iEmployee } from "../../interface";
 import { TAuthLoginData } from "../../validators/authValidators";
 
 export interface IEmployeeContext {

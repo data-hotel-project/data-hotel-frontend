@@ -1,37 +1,46 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { iRoom } from "../../../assets/interface";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useRoom } from "../../../contexts/RoomContext";
+import { iRoom } from "../../../interface";
 import {
   TRoomUpdateData,
   roomSchemaUpdateForm,
 } from "../../../validators/roomValidators";
 import Button from "../../Button";
+import ImageUploader from "../../ImageUploader";
 import Input from "../../Input";
-import { BoxButtonAddImage, StyledForm } from "./style";
-import { useHotel } from "../../../contexts/HotelContext";
-import { useAuth } from "../../../contexts/AuthContext";
+import { StyledForm } from "./style";
 
 interface iRoomUpdateForm {
   currentRoom: iRoom;
 }
 
 const UpdateRoomForm = ({ currentRoom }: iRoomUpdateForm) => {
+  const { hotelId, setShowModal } = useAuth();
+  const { listRoomsByHotel, updateRoom } = useRoom();
+
   const [imagesField, setImagesField] = useState<string[]>([""]);
-  const [selectedFile, setSelectedFile] = useState<any>();
-
-  const getFileName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-
-    setSelectedFile(file);
-  };
-
-  const { hotelId } = useAuth();
-  const { listRoomsByHotel, updateRoom } = useHotel();
+  const [selectedFiles, setSelectedFiles] = useState<{
+    [key: string]: File | undefined;
+  }>({
+    image: undefined,
+    image2: undefined,
+    image3: undefined,
+    image4: undefined,
+    image5: undefined,
+  });
 
   useEffect(() => {
-    listRoomsByHotel(hotelId);
-  }, []);
+    const execute = async () => {
+      if (hotelId) {
+        await listRoomsByHotel(hotelId);
+      }
+    };
+
+    execute();
+  }, [hotelId]);
 
   const {
     register,
@@ -41,6 +50,19 @@ const UpdateRoomForm = ({ currentRoom }: iRoomUpdateForm) => {
   } = useForm<TRoomUpdateData>({
     resolver: zodResolver(roomSchemaUpdateForm),
   });
+
+  const getFileName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const id = e.target.id;
+    const file = e.target.files?.[0];
+    let spanTarget = e.target.offsetParent?.children[2];
+
+    spanTarget!.innerHTML = file ? file.name : "Choose an image";
+
+    setSelectedFiles((prevSelectedFiles) => ({
+      ...prevSelectedFiles,
+      [id]: file,
+    }));
+  };
 
   const buildFormData = (data: TRoomUpdateData): FormData => {
     const formData = new FormData();
@@ -59,11 +81,18 @@ const UpdateRoomForm = ({ currentRoom }: iRoomUpdateForm) => {
   };
 
   const onSubmit = async (data: TRoomUpdateData) => {
-    const updatedData = { ...data, image: selectedFile };
+    const updatedData = { ...data, ...selectedFiles };
 
     const formData = buildFormData(updatedData);
 
-    updateRoom(formData, currentRoom.id);
+    // const formDataObject: Record<string, string | Blob> = {};
+    // formData.forEach((value, key) => {
+    //   formDataObject[key] = value;
+    // });
+
+    await updateRoom(formData, currentRoom.id);
+
+    setShowModal("");
   };
 
   return (
@@ -126,48 +155,14 @@ const UpdateRoomForm = ({ currentRoom }: iRoomUpdateForm) => {
         defaultValue={currentRoom.guest}
       />
 
-      <Input
-        id="image"
-        label="Image"
-        type="file"
-        errorMessage={errors.image?.message}
+      <ImageUploader
+        errors={errors}
         register={register}
         getValues={getValues}
         onChange={getFileName}
+        imagesField={imagesField}
+        setImagesField={setImagesField}
       />
-
-      {imagesField.map((_, i) => {
-        const dynamicErrorImage = `image${i + 2}` as keyof typeof errors;
-
-        return (
-          <Input
-            key={i}
-            id={`image${i + 2}`}
-            label={`Image${i + 2}`}
-            type="text"
-            errorMessage={errors[dynamicErrorImage]?.message}
-            register={register}
-            getValues={getValues}
-            defaultValue={currentRoom[`full_url${i + 2}`]}
-          />
-        );
-      })}
-
-      {imagesField.length < 4 && (
-        <BoxButtonAddImage>
-          <Button
-            size="medium"
-            backgroundColor="#698d60"
-            backgroundColorHover="#2f5526"
-            fontColor="#100909"
-            fontColorHover="#d7c6c6"
-            type="button"
-            onClick={() => setImagesField([...imagesField, ""])}
-          >
-            Add image field
-          </Button>
-        </BoxButtonAddImage>
-      )}
 
       <Button size="medium">Save</Button>
     </StyledForm>

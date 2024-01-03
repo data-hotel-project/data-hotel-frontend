@@ -19,6 +19,7 @@ export const BoxChoice = styled.div<{ $roomActive: boolean }>`
     padding-bottom: 5px;
     width: 70px;
     text-align: center;
+    font-size: 11px;
 
     cursor: pointer;
     transition: 0.3s;
