@@ -21,7 +21,7 @@ const UpdateRoomForm = ({ currentRoom }: iRoomUpdateForm) => {
   const { hotelId, setShowModal } = useAuth();
   const { listRoomsByHotel, updateRoom } = useRoom();
 
-  const [imagesField, setImagesField] = useState<string[]>([""]);
+  const [imagesField, setImagesField] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<{
     [key: string]: File | undefined;
   }>({
@@ -159,7 +159,7 @@ const UpdateRoomForm = ({ currentRoom }: iRoomUpdateForm) => {
         errors={errors}
         register={register}
         getValues={getValues}
-        onChange={getFileName}
+        getFileName={getFileName}
         imagesField={imagesField}
         setImagesField={setImagesField}
       />

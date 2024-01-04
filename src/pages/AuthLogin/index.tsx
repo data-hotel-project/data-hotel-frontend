@@ -9,10 +9,14 @@ import { useGuest } from "../../contexts/GuestContext";
 import { iLoginRequest } from "../../interface";
 import { authSchemaLogin } from "../../validators/authValidators";
 import { BoxIsEmployee, StyledBody } from "./style";
+import { useEmployeeStore } from "../../stores/useEmployeeStore";
 
 const Login = () => {
   const { loginGuest } = useGuest();
-  const { loginEmployee } = useEmployee();
+  // const { loginEmployee } = useEmployee();
+  const loginEmployee = useEmployeeStore(
+    ({ actions: { loginEmployee } }) => loginEmployee
+  );
   const [isEmployee, setIsEmployee] = useState(false);
 
   const {
