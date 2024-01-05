@@ -2,13 +2,13 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { IChildrenProps, iEmployee } from "../../interface";
 import { api } from "../../server/Api";
+import { useRoomStore } from "../../stores/RoomStore/useRoomStore";
 import { TAuthLoginData } from "../../validators/authValidators";
 import {
   TEmployeeFormData,
   TEmployeeUpdateFormData,
 } from "../../validators/employeeValidators";
 import { useAuth } from "../AuthContext";
-import { useRoom } from "../RoomContext";
 import { IEmployeeContext } from "./@types";
 
 export const EmployeeContext = createContext<IEmployeeContext>(
@@ -18,28 +18,32 @@ export const EmployeeContext = createContext<IEmployeeContext>(
 export const EmployeeProvider = ({ children }: IChildrenProps) => {
   const { setUser, token, userId, navigate, hotelId, getLoggedUser } =
     useAuth();
-  const { listRoomsByHotel } = useRoom();
+
+  const {
+    actions: { listRoomsByHotel },
+  } = useRoomStore();
 
   const [employee, setEmployee] = useState<iEmployee | null>(null);
   const [employees, setEmployees] = useState<iEmployee[] | null>(null);
 
-  useEffect(() => {
-    const execute = async () => {
-      if (hotelId) {
-        await listRoomsByHotel(hotelId);
-      }
-    };
+  // useEffect(() => {
+  //   const execute = async () => {
+  //     if (hotelId) {
+  //       console.log("Provider");
+  //       await listRoomsByHotel(hotelId);
+  //     }
+  //   };
 
-    execute();
-  }, [hotelId]);
+  //   execute();
+  // }, [hotelId]);
 
   const loginEmployee = async (formData: TAuthLoginData) => {
     try {
-      const response = await api.post("/employee/login/", formData);
-      setUser(response.data.user);
+      const { data } = await api.post("/employee/login/", formData);
+      setUser(data.user);
 
-      localStorage.setItem("@DataHotel:TOKEN", response.data.access);
-      localStorage.setItem("@DataHotel:userID", response.data.user.id);
+      localStorage.setItem("@DataHotel:TOKEN", data.access);
+      localStorage.setItem("@DataHotel:userID", data.user.id);
 
       toast.success("Login successfully");
       getLoggedUser();
@@ -66,8 +70,8 @@ export const EmployeeProvider = ({ children }: IChildrenProps) => {
 
   const listEmployees = async () => {
     try {
-      const response = await api.get("/employee/");
-      setEmployees(response.data);
+      const { data } = await api.get("/employee/");
+      setEmployees(data);
     } catch (error) {
       console.log(error);
     }
@@ -75,8 +79,8 @@ export const EmployeeProvider = ({ children }: IChildrenProps) => {
 
   const retrieveEmployee = async () => {
     try {
-      const response = await api.get(`/employee/${userId}`);
-      setUser(response.data);
+      const { data } = await api.get(`/employee/${userId}`);
+      setUser(data);
     } catch (error) {
       console.log(error);
     }
@@ -84,12 +88,12 @@ export const EmployeeProvider = ({ children }: IChildrenProps) => {
 
   const updateEmployee = async (formData: TEmployeeUpdateFormData) => {
     try {
-      const response = await api.patch(`/employee/${userId}`, formData, {
+      const { data } = await api.patch(`/employee/${userId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setUser(response.data);
+      setUser(data);
       navigate(`/${userId}/dashboard`);
     } catch (error) {
       console.log(error);

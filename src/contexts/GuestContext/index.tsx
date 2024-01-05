@@ -20,11 +20,12 @@ export const GuestProvider = ({ children }: IChildrenProps) => {
 
   const loginGuest = async (formData: TAuthLoginData) => {
     try {
-      const response = await api.post("/guest/login/", formData);
-      setUser(response.data.user);
+      const { data } = await api.post("/guest/login/", formData);
 
-      localStorage.setItem("@DataHotel:TOKEN", response.data.access);
-      localStorage.setItem("@DataHotel:userID", response.data.user.id);
+      setUser(data.user);
+
+      localStorage.setItem("@DataHotel:TOKEN", data.access);
+      localStorage.setItem("@DataHotel:userID", data.user.id);
 
       getLoggedUser();
     } catch (error) {
@@ -46,8 +47,8 @@ export const GuestProvider = ({ children }: IChildrenProps) => {
 
   const listGuests = async () => {
     try {
-      const response = await api.get("/guest/");
-      setGuests(response.data);
+      const { data } = await api.get("/guest/");
+      setGuests(data);
     } catch (error) {
       console.log(error);
     }
@@ -55,8 +56,9 @@ export const GuestProvider = ({ children }: IChildrenProps) => {
 
   const retrieveGuest = async () => {
     try {
-      const response = await api.get(`/guest/${userId}`);
-      setGuest(response.data);
+      const { data } = await api.get(`/guest/${userId}`);
+
+      setGuest(data);
     } catch (error) {
       console.log(error);
     }
@@ -64,12 +66,13 @@ export const GuestProvider = ({ children }: IChildrenProps) => {
 
   const updateGuest = async (formData: TGuestUpdateFormData) => {
     try {
-      const response = await api.patch(`/guest/${userId}`, formData, {
+      const { data } = await api.patch(`/guest/${userId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setGuest(response.data);
+
+      setGuest(data);
       navigate(`/${userId}/dashboard`);
     } catch (error) {
       console.log(error);
@@ -94,7 +97,6 @@ export const GuestProvider = ({ children }: IChildrenProps) => {
   return (
     <GuestContext.Provider
       value={{
-        navigate,
         guest,
         setGuest,
         guests,

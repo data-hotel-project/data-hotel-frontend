@@ -43,8 +43,6 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
 
           navigate("/employeeDashboard");
         } else if (token && response.data.user.is_staff == false) {
-          toast.success("Login successfully");
-
           navigate("/guestDashboard");
         } else {
           navigate("/");

@@ -35,26 +35,29 @@ export const ReservationProvider = ({ children }: IChildrenProps) => {
 
   const listReservations = async () => {
     try {
-      const response = await api.get("/reservation/");
-      setReservations(response.data);
+      const { data } = await api.get("/reservation/");
+      setReservations(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const retrieveReservation = async () => {
+  const retrieveReservation = async (reservationId: string) => {
     try {
-      const response = await api.get(`/reservation/${reservation?.id}`);
-      setReservation(response.data);
+      const { data } = await api.get(`/reservation/${reservationId}`);
+      setReservation(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updateReservation = async (formData: TReservationUpdateData) => {
+  const updateReservation = async (
+    formData: TReservationUpdateData,
+    reservationId: string
+  ) => {
     try {
-      const response = await api.patch(
-        `/reservation/${reservation?.id}`,
+      const { data } = await api.patch(
+        `/reservation/${reservationId}`,
         formData,
         {
           headers: {
@@ -62,16 +65,16 @@ export const ReservationProvider = ({ children }: IChildrenProps) => {
           },
         }
       );
-      setReservation(response.data);
+      setReservation(data);
       navigate(`/${userId}/dashboard`);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const deleteReservation = async () => {
+  const deleteReservation = async (reservationId: string) => {
     try {
-      await api.delete(`/reservation/${reservation?.id}`, {
+      await api.delete(`/reservation/${reservationId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

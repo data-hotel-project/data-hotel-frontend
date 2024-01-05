@@ -4,11 +4,12 @@ import {
   TReservationUpdateData,
 } from "../../validators/reservationValidators";
 
-export interface iReservationContext {
+export interface iStatesProps {
   reservation: iReservation | null;
-  setReservation: React.Dispatch<React.SetStateAction<iReservation | null>>;
   reservations: iReservation[] | [];
-  setReservations: React.Dispatch<React.SetStateAction<iReservation[] | []>>;
+}
+
+export interface iActionProps {
   createReservation: (formData: TReservationCreateData) => Promise<void>;
   listReservations: () => Promise<void>;
   retrieveReservation: (reservationId: string) => Promise<void>;
@@ -17,4 +18,9 @@ export interface iReservationContext {
     reservationId: string
   ) => Promise<void>;
   deleteReservation: (reservationId: string) => Promise<void>;
+}
+
+export interface iReservationStore {
+  states: iStatesProps;
+  actions: iActionProps;
 }

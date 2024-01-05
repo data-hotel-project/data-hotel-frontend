@@ -4,19 +4,21 @@ import { useForm } from "react-hook-form";
 import Background from "../../components/Background";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import { useEmployee } from "../../contexts/EmployeeContext";
-import { useGuest } from "../../contexts/GuestContext";
 import { iLoginRequest } from "../../interface";
+import { useEmployeeStore } from "../../stores/EmployeeStore/useEmployeeStore";
+import { useGuestStore } from "../../stores/GuestStore/useGuestStore";
 import { authSchemaLogin } from "../../validators/authValidators";
 import { BoxIsEmployee, StyledBody } from "./style";
-import { useEmployeeStore } from "../../stores/useEmployeeStore";
 
 const Login = () => {
-  const { loginGuest } = useGuest();
-  // const { loginEmployee } = useEmployee();
-  const loginEmployee = useEmployeeStore(
-    ({ actions: { loginEmployee } }) => loginEmployee
-  );
+  const {
+    actions: { loginGuest },
+  } = useGuestStore()();
+
+  const {
+    actions: { loginEmployee },
+  } = useEmployeeStore()();
+
   const [isEmployee, setIsEmployee] = useState(false);
 
   const {

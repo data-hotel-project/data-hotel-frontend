@@ -34,8 +34,8 @@ export const RoomProvider = ({ children }: IChildrenProps) => {
 
   const listAllRooms = async () => {
     try {
-      const response = await api.get("/room/");
-      setAllRooms(response.data);
+      const { data } = await api.get("/room/");
+      setAllRooms(data);
     } catch (error) {
       console.log(error);
     }
@@ -43,8 +43,8 @@ export const RoomProvider = ({ children }: IChildrenProps) => {
 
   const listRoomsByHotel = async (hotelId: string | null) => {
     try {
-      const response = await api.get(`/room/?hotel_id=${hotelId}`);
-      setRooms(response.data);
+      const { data } = await api.get(`/room/?hotel_id=${hotelId}`);
+      setRooms(data);
     } catch (error) {
       console.log(error);
     }
@@ -52,8 +52,8 @@ export const RoomProvider = ({ children }: IChildrenProps) => {
 
   const retrieveRoom = async (roomId: string) => {
     try {
-      const response = await api.get(`/room/${roomId}`);
-      setRoom(response.data);
+      const { data } = await api.get(`/room/${roomId}`);
+      setRoom(data);
     } catch (error) {
       console.log(error);
     }
@@ -64,12 +64,12 @@ export const RoomProvider = ({ children }: IChildrenProps) => {
     roomId: string
   ) => {
     try {
-      const response = await api.patch(`/room/${roomId}/`, formData, {
+      const { data } = await api.patch(`/room/${roomId}/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setRoom(response.data);
+      setRoom(data);
       await listRoomsByHotel(hotelId);
 
       toast.success("Room updated successfully");
@@ -79,9 +79,9 @@ export const RoomProvider = ({ children }: IChildrenProps) => {
     }
   };
 
-  const deleteRoom = async () => {
+  const deleteRoom = async (roomId: string) => {
     try {
-      await api.delete(`/room/${room?.id}`, {
+      await api.delete(`/room/${roomId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../../contexts/AuthContext";
-import { useRoom } from "../../../contexts/RoomContext";
 import { iRoom } from "../../../interface";
+import { useRoomStore } from "../../../stores/RoomStore/useRoomStore";
 import {
   TRoomUpdateData,
   roomSchemaUpdateForm,
@@ -18,8 +18,10 @@ interface iRoomUpdateForm {
 }
 
 const UpdateRoomForm = ({ currentRoom }: iRoomUpdateForm) => {
-  const { hotelId, setShowModal } = useAuth();
-  const { listRoomsByHotel, updateRoom } = useRoom();
+  const { setShowModal } = useAuth();
+  // const {
+  //   actions: { updateRoom },
+  // } = useRoomStore();
 
   const [imagesField, setImagesField] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<{
@@ -31,16 +33,6 @@ const UpdateRoomForm = ({ currentRoom }: iRoomUpdateForm) => {
     image4: undefined,
     image5: undefined,
   });
-
-  useEffect(() => {
-    const execute = async () => {
-      if (hotelId) {
-        await listRoomsByHotel(hotelId);
-      }
-    };
-
-    execute();
-  }, [hotelId]);
 
   const {
     register,
@@ -90,7 +82,7 @@ const UpdateRoomForm = ({ currentRoom }: iRoomUpdateForm) => {
     //   formDataObject[key] = value;
     // });
 
-    await updateRoom(formData, currentRoom.id);
+    // await updateRoom(formData, currentRoom.id);
 
     setShowModal("");
   };

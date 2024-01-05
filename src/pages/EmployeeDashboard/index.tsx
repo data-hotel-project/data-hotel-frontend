@@ -8,25 +8,31 @@ import UpdateRoomForm from "../../components/Forms/UpdateRoomForm";
 import Header from "../../components/Header";
 import { Modal } from "../../components/Modal";
 import { useAuth } from "../../contexts/AuthContext";
-import { useRoom } from "../../contexts/RoomContext";
 import { iRoom } from "../../interface";
+import { useRoomStore } from "../../stores/RoomStore/useRoomStore";
 
 export const EmployeeDashboard = () => {
-  const { hotelId, showModal } = useAuth();
-  const { listRoomsByHotel, rooms } = useRoom();
-
-  const [currentRoom, setCurrentRoom] = useState<iRoom>({} as iRoom);
-  const [roomActive, setRoomActive] = useState<boolean>(true);
+  const { showModal, hotelId } = useAuth();
+  const {
+    states: { rooms },
+    actions: { listRoomsByHotel },
+  } = useRoomStore();
 
   useEffect(() => {
     const execute = async () => {
       if (hotelId) {
+        console.log("Dash");
         await listRoomsByHotel(hotelId);
       }
     };
 
     execute();
   }, [hotelId]);
+
+  const [currentRoom, setCurrentRoom] = useState<iRoom>({} as iRoom);
+  const [roomActive, setRoomActive] = useState<boolean>(true);
+
+  console.log(rooms);
 
   return (
     <StyledDashboard>

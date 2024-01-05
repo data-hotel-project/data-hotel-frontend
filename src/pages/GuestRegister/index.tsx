@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import Background from "../../components/Background";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import { useGuest } from "../../contexts/GuestContext";
+import { useGuestStore } from "../../stores/GuestStore/useGuestStore";
 import {
   TGuestFormData,
   guestSchemaForm,
@@ -11,7 +11,9 @@ import {
 import { StyledBody } from "./style";
 
 const GuestRegister = () => {
-  const { createGuest } = useGuest();
+  const {
+    actions: { createGuest },
+  } = useGuestStore()();
 
   const {
     register,
