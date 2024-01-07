@@ -15,19 +15,19 @@ export const useEmployeeStore = () => {
   const { setUser, token, userId, navigate, hotelId, getLoggedUser } =
     useAuth();
 
-  const {
-    actions: { listRoomsByHotel },
-  } = useRoomStore();
+  // const {
+  //   actions: { listRoomsByHotel },
+  // } = useRoomStore();
 
-  useEffect(() => {
-    const execute = async () => {
-      if (hotelId) {
-        await listRoomsByHotel(hotelId);
-      }
-    };
+  // useEffect(() => {
+  //   const execute = async () => {
+  //     if (hotelId) {
+  //       await listRoomsByHotel(hotelId);
+  //     }
+  //   };
 
-    execute();
-  }, [hotelId]);
+  //   execute();
+  // }, [hotelId]);
 
   return create<iEmployeeStore>((set) => ({
     states: {

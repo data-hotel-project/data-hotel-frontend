@@ -14,14 +14,14 @@ export const useRoomStore = () => {
   const { token, hotelId, navigate } = useAuth();
   const { listRoomsByHotel } = useRoom();
 
-  useEffect(() => {
-    const execute = async () => {
-      if (hotelId) {
-        await store.actions.listRoomsByHotel(hotelId);
-      }
-    };
-    execute();
-  }, [token, hotelId]);
+  // useEffect(() => {
+  //   const execute = async () => {
+  //     if (hotelId) {
+  //       await store.actions.listRoomsByHotel(hotelId);
+  //     }
+  //   };
+  //   execute();
+  // }, [token, hotelId]);
 
   const createStore = create<iRoomStore>((set, get) => ({
     states: {
@@ -58,7 +58,7 @@ export const useRoomStore = () => {
         try {
           const { data } = await api.get(`/room/?hotel_id=${hotelId}`);
 
-          set(({ states }) => ({ states: { ...states, rooms: data } }));
+          set({ states: { ...get().states, rooms: data } });
 
           console.log("Function data", get());
         } catch (error) {
@@ -116,7 +116,11 @@ export const useRoomStore = () => {
     },
   }));
 
-  const store = createStore();
+  // Tipo 1
+  // const store = createStore();
 
-  return store;
+  // return store;
+
+  // Tipo 2
+  return createStore;
 };

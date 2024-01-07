@@ -19,9 +19,9 @@ export const EmployeeProvider = ({ children }: IChildrenProps) => {
   const { setUser, token, userId, navigate, hotelId, getLoggedUser } =
     useAuth();
 
-  const {
-    actions: { listRoomsByHotel },
-  } = useRoomStore();
+  // const {
+  //   actions: { listRoomsByHotel },
+  // } = useRoomStore()();
 
   const [employee, setEmployee] = useState<iEmployee | null>(null);
   const [employees, setEmployees] = useState<iEmployee[] | null>(null);

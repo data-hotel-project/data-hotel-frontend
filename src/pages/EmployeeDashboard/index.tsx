@@ -9,14 +9,31 @@ import Header from "../../components/Header";
 import { Modal } from "../../components/Modal";
 import { useAuth } from "../../contexts/AuthContext";
 import { iRoom } from "../../interface";
-import { useRoomStore } from "../../stores/RoomStore/useRoomStore";
+// import { useRoomStore } from "../../stores/RoomStore/useRoomStore";
+import { useRoomStore } from "../../stores/RoomStore/useRoomStore.1";
 
 export const EmployeeDashboard = () => {
   const { showModal, hotelId } = useAuth();
-  const {
-    states: { rooms },
-    actions: { listRoomsByHotel },
-  } = useRoomStore();
+
+  // Tipo 1
+  // const {
+  //   states: { rooms },
+  //   actions: { listRoomsByHotel },
+  // } = useRoomStore();
+
+  // Tipo 2
+  // const store = useRoomStore();
+
+  // const {
+  //   states: { rooms },
+  //   actions: { listRoomsByHotel },
+  // } = store((state) => state);
+
+  // Tipo 3
+  const [rooms, listRoomsByHotel] = useRoomStore((state) => [
+    state.states.rooms,
+    state.actions.listRoomsByHotel,
+  ]);
 
   useEffect(() => {
     const execute = async () => {
@@ -27,7 +44,7 @@ export const EmployeeDashboard = () => {
     };
 
     execute();
-  }, [hotelId]);
+  }, []);
 
   const [currentRoom, setCurrentRoom] = useState<iRoom>({} as iRoom);
   const [roomActive, setRoomActive] = useState<boolean>(true);
