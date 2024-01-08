@@ -1,7 +1,13 @@
 import { useAuth } from "@contexts/AuthContext";
 import { iHotel } from "@interface/hotel";
 import { IChildrenProps } from "@interface/index";
-import { api } from "@services/Api";
+import {
+  createHotelResponse,
+  deleteHotelResponse,
+  listHotelsResponse,
+  retrieveHotelResponse,
+  updateHotelResponse,
+} from "@services/ResponseData/hotel";
 import {
   THotelCreateFormData,
   THotelUpdateFormData,
@@ -20,11 +26,7 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
 
   const createHotel = async (formData: THotelCreateFormData) => {
     try {
-      await api.post("/hotel/", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await createHotelResponse(formData, token);
 
       toast.success("Successful registration");
       navigate("/login");
@@ -35,7 +37,8 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
 
   const listHotels = async () => {
     try {
-      const { data } = await api.get("/hotel/");
+      const data = await listHotelsResponse();
+
       setHotels(data);
       if (data.length == 1) {
         localStorage.setItem("@DataHotel:hotelID", data[0].id);
@@ -47,7 +50,8 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
 
   const retrieveHotel = async (hotelId: string | null) => {
     try {
-      const { data } = await api.get(`/hotel/${hotelId}`);
+      const data = await retrieveHotelResponse(hotelId);
+
       setHotel(data);
     } catch (error) {
       console.log(error);
@@ -56,11 +60,8 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
 
   const updateHotel = async (formData: THotelUpdateFormData) => {
     try {
-      const { data } = await api.patch(`/hotel/${userId}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const data = await updateHotelResponse(formData, userId, token);
+
       setHotel(data);
       navigate(`/adminDashboard`);
     } catch (error) {
@@ -68,15 +69,11 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
     }
   };
 
-  const deleteHotel = async (id: string) => {
+  const deleteHotel = async (hotelId: string) => {
     try {
-      await api.delete(`/hotel/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      deleteHotelResponse(hotelId, token);
 
-      toast.success("User deleted");
+      toast.success("Hotel deleted");
       setHotel(null);
     } catch (error) {
       console.log(error);

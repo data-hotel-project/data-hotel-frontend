@@ -1,5 +1,6 @@
 import { iAddress } from "./address";
 import { iEmployee } from "./employee";
+import { iHotel } from "./hotel";
 
 export interface iAddressResponse extends iAddress {
   created_at: string;
@@ -15,4 +16,10 @@ export interface iUserLoggedResponse extends iEmployee {
 export interface iLoggedUserResponse {
   hotel: string;
   user: iUserLoggedResponse;
+}
+
+export interface iHotelResponse extends Omit<iHotel, "address"> {
+  address: iAddressResponse;
+  created_at: string;
+  updated_at: string;
 }

@@ -13,5 +13,5 @@ export interface IHotelContext {
   listHotels: () => Promise<void>;
   retrieveHotel: (hotelId: string | null) => Promise<void>;
   updateHotel: (formData: THotelUpdateFormData) => Promise<void>;
-  deleteHotel: (id: string) => Promise<void>;
+  deleteHotel: (hotelId: string) => Promise<void>;
 }

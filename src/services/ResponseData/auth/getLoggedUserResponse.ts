@@ -1,5 +1,5 @@
 import { iLoggedUserResponse } from "@interface/responseData";
-import { api } from "./Api";
+import { api } from "@services/Api";
 
 export const getLoggedUserResponse = async (
   token: string

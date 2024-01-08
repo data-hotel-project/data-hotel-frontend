@@ -1,7 +1,7 @@
 import { iEmployee } from "@interface/employee";
 import { iGuest } from "@interface/guest";
 import { IChildrenProps } from "@interface/index";
-import { getLoggedUserResponse } from "@services/getLoggedUserResponse";
+import { getLoggedUserResponse } from "@services/ResponseData/auth";
 import { isAxiosError } from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
