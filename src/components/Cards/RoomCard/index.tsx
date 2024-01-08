@@ -1,8 +1,9 @@
+import Button from "@components/Button";
+import { useAuth } from "@contexts/AuthContext";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { iRoom } from "@interface/room";
 import React from "react";
-import { iRoom } from "../../../interface";
-import Button from "../../Button";
 import {
   BoxButtons,
   BoxImage,
@@ -12,7 +13,6 @@ import {
   StyledRoomCard,
   SubTitle,
 } from "./style";
-import { useAuth } from "../../../contexts/AuthContext";
 
 interface iRoomCardProps {
   room: iRoom;

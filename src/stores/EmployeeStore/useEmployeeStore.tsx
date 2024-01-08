@@ -1,33 +1,17 @@
-import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { create } from "zustand";
-import { useAuth } from "../../contexts/AuthContext";
-import { api } from "../../server/Api";
-import { TAuthLoginData } from "../../validators/authValidators";
+
+import { useAuth } from "@contexts/AuthContext";
+import { api } from "@services/Api";
+import { TAuthLoginData } from "@validators/authValidators";
 import {
   TEmployeeFormData,
   TEmployeeUpdateFormData,
-} from "../../validators/employeeValidators";
-import { useRoomStore } from "../RoomStore/useRoomStore";
+} from "@validators/employeeValidators";
 import { iEmployeeStore } from "./@types";
 
 export const useEmployeeStore = () => {
-  const { setUser, token, userId, navigate, hotelId, getLoggedUser } =
-    useAuth();
-
-  // const {
-  //   actions: { listRoomsByHotel },
-  // } = useRoomStore();
-
-  // useEffect(() => {
-  //   const execute = async () => {
-  //     if (hotelId) {
-  //       await listRoomsByHotel(hotelId);
-  //     }
-  //   };
-
-  //   execute();
-  // }, [hotelId]);
+  const { setUser, token, userId, navigate, getLoggedUser } = useAuth();
 
   return create<iEmployeeStore>((set) => ({
     states: {

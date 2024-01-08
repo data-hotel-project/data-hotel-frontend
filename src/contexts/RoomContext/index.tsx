@@ -1,12 +1,10 @@
+import { useAuth } from "@contexts/AuthContext";
+import { IChildrenProps } from "@interface/index";
+import { iRoom } from "@interface/room";
+import { api } from "@services/Api";
+import { TRoomCreateData, TRoomUpdateData } from "@validators/roomValidators";
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { IChildrenProps, iRoom } from "../../interface";
-import { api } from "../../server/Api";
-import {
-  TRoomCreateData,
-  TRoomUpdateData,
-} from "../../validators/roomValidators";
-import { useAuth } from "../AuthContext";
 import { IRoomContext } from "./@types";
 
 export const RoomContext = createContext<IRoomContext>({} as IRoomContext);

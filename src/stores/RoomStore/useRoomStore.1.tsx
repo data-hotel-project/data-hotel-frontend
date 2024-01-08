@@ -1,6 +1,6 @@
+import { iRoom } from "@interface/room";
+import { api } from "@services/Api";
 import { create } from "zustand";
-import { iRoom } from "../../interface";
-import { api } from "../../server/Api";
 
 export interface iStatesProps {
   rooms: iRoom[] | [];
@@ -26,8 +26,6 @@ export const useRoomStore = create<iRoomStore>((set, get) => ({
         const { data } = await api.get(`/room/?hotel_id=${hotelId}`);
 
         set({ states: { ...get().states, rooms: data } });
-
-        console.log("Function data", get());
       } catch (error) {
         console.log(error);
       }

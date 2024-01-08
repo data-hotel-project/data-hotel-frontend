@@ -1,11 +1,11 @@
 import { toast } from "react-toastify";
 import { create } from "zustand";
-import { useAuth } from "../../contexts/AuthContext";
-import { api } from "../../server/Api";
+import { useAuth } from "@contexts/AuthContext";
+import { api } from "@services/Api";
 import {
   TReservationCreateData,
   TReservationUpdateData,
-} from "../../validators/reservationValidators";
+} from "@validators/reservationValidators";
 import { iReservationStore } from "./@types";
 
 export const useReservationStore = () => {

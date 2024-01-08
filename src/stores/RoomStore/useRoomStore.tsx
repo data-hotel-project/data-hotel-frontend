@@ -1,27 +1,14 @@
-import { useEffect } from "react";
+import { useAuth } from "@contexts/AuthContext";
+import { useRoom } from "@contexts/RoomContext";
+import { api } from "@services/Api";
+import { TRoomCreateData, TRoomUpdateData } from "@validators/roomValidators";
 import { toast } from "react-toastify";
 import { create } from "zustand";
-import { useAuth } from "../../contexts/AuthContext";
-import { useRoom } from "../../contexts/RoomContext";
-import { api } from "../../server/Api";
-import {
-  TRoomCreateData,
-  TRoomUpdateData,
-} from "../../validators/roomValidators";
 import { iRoomStore } from "./@types";
 
 export const useRoomStore = () => {
   const { token, hotelId, navigate } = useAuth();
   const { listRoomsByHotel } = useRoom();
-
-  // useEffect(() => {
-  //   const execute = async () => {
-  //     if (hotelId) {
-  //       await store.actions.listRoomsByHotel(hotelId);
-  //     }
-  //   };
-  //   execute();
-  // }, [token, hotelId]);
 
   const createStore = create<iRoomStore>((set, get) => ({
     states: {
@@ -59,8 +46,6 @@ export const useRoomStore = () => {
           const { data } = await api.get(`/room/?hotel_id=${hotelId}`);
 
           set({ states: { ...get().states, rooms: data } });
-
-          console.log("Function data", get());
         } catch (error) {
           console.log(error);
         }

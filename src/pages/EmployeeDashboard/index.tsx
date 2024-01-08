@@ -1,16 +1,16 @@
+import { StyledNoisy } from "@components/Background/style";
+import { RoomCard } from "@components/Cards/RoomCard";
+import UpdateRoomForm from "@components/Forms/UpdateRoomForm";
+import Header from "@components/Header";
+import { Modal } from "@components/Modal";
+import { useAuth } from "@contexts/AuthContext";
+import { iRoom } from "@interface/room";
 import { useEffect, useState } from "react";
-import { StyledNoisy } from "../../components/Background/style";
-import { StyledDashboard } from "../GuestDashboard/style";
 import { BoxChoice, Container, UlContainer } from "./style";
 
-import { RoomCard } from "../../components/Cards/RoomCard";
-import UpdateRoomForm from "../../components/Forms/UpdateRoomForm";
-import Header from "../../components/Header";
-import { Modal } from "../../components/Modal";
-import { useAuth } from "../../contexts/AuthContext";
-import { iRoom } from "../../interface";
-// import { useRoomStore } from "../../stores/RoomStore/useRoomStore";
-import { useRoomStore } from "../../stores/RoomStore/useRoomStore.1";
+import { StyledDashboard } from "@pages/GuestDashboard/style";
+import { useRoomStore } from "@stores/RoomStore/useRoomStore.1";
+// import { useRoomStore } from "@stores/RoomStore/useRoomStore";
 
 export const EmployeeDashboard = () => {
   const { showModal, hotelId } = useAuth();
@@ -38,7 +38,6 @@ export const EmployeeDashboard = () => {
   useEffect(() => {
     const execute = async () => {
       if (hotelId) {
-        console.log("Dash");
         await listRoomsByHotel(hotelId);
       }
     };
@@ -48,8 +47,6 @@ export const EmployeeDashboard = () => {
 
   const [currentRoom, setCurrentRoom] = useState<iRoom>({} as iRoom);
   const [roomActive, setRoomActive] = useState<boolean>(true);
-
-  console.log(rooms);
 
   return (
     <StyledDashboard>

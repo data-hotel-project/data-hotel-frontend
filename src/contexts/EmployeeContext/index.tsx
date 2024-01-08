@@ -1,14 +1,14 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { IChildrenProps, iEmployee } from "../../interface";
-import { api } from "../../server/Api";
-import { useRoomStore } from "../../stores/RoomStore/useRoomStore";
-import { TAuthLoginData } from "../../validators/authValidators";
+import { useAuth } from "@contexts/AuthContext";
+import { iEmployee } from "@interface/employee";
+import { IChildrenProps } from "@interface/index";
+import { api } from "@services/Api";
+import { TAuthLoginData } from "@validators/authValidators";
 import {
   TEmployeeFormData,
   TEmployeeUpdateFormData,
-} from "../../validators/employeeValidators";
-import { useAuth } from "../AuthContext";
+} from "@validators/employeeValidators";
+import { createContext, useContext, useState } from "react";
+import { toast } from "react-toastify";
 import { IEmployeeContext } from "./@types";
 
 export const EmployeeContext = createContext<IEmployeeContext>(

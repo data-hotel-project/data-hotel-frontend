@@ -1,12 +1,13 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { IChildrenProps, iHotel } from "../../interface";
-import { api } from "../../server/Api";
+import { useAuth } from "@contexts/AuthContext";
+import { iHotel } from "@interface/hotel";
+import { IChildrenProps } from "@interface/index";
+import { api } from "@services/Api";
 import {
   THotelCreateFormData,
   THotelUpdateFormData,
-} from "../../validators/hotelValidators";
-import { useAuth } from "../AuthContext";
+} from "@validators/hotelValidators";
+import { createContext, useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { IHotelContext } from "./@types";
 
 export const HotelContext = createContext<IHotelContext>({} as IHotelContext);
@@ -34,10 +35,10 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
 
   const listHotels = async () => {
     try {
-      const response = await api.get("/hotel/");
-      setHotels(response.data);
-      if (response.data.length == 1) {
-        localStorage.setItem("@DataHotel:hotelID", response.data[0].id);
+      const { data } = await api.get("/hotel/");
+      setHotels(data);
+      if (data.length == 1) {
+        localStorage.setItem("@DataHotel:hotelID", data[0].id);
       }
     } catch (error) {
       console.log(error);
@@ -46,8 +47,8 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
 
   const retrieveHotel = async (hotelId: string | null) => {
     try {
-      const response = await api.get(`/hotel/${hotelId}`);
-      setHotel(response.data);
+      const { data } = await api.get(`/hotel/${hotelId}`);
+      setHotel(data);
     } catch (error) {
       console.log(error);
     }
@@ -55,12 +56,12 @@ export const HotelProvider = ({ children }: IChildrenProps) => {
 
   const updateHotel = async (formData: THotelUpdateFormData) => {
     try {
-      const response = await api.patch(`/hotel/${userId}`, formData, {
+      const { data } = await api.patch(`/hotel/${userId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setHotel(response.data);
+      setHotel(data);
       navigate(`/adminDashboard`);
     } catch (error) {
       console.log(error);

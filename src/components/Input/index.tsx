@@ -1,8 +1,8 @@
+import { ErrorMessage } from "@components/ParagraphError";
+import { iInputProps } from "@interface/index";
 import { Eye, EyeSlash } from "phosphor-react";
 import { ReactNode, useEffect, useState } from "react";
-import { ErrorMessage } from "../ParagraphError";
 import InputGroup from "./inputGroup";
-import { iInputProps } from "../../interface";
 
 const Input = ({
   errorMessage,

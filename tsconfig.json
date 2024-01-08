@@ -9,6 +9,17 @@
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "paths": {
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
+      "@contexts/*": ["./src/contexts/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@interface/*": ["./src/interface/*"],
+      "@validators/*": ["./src/validators/*"],
+      "@stores/*": ["./src/stores/*"],
+      "@services/*": ["./src/services/*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",

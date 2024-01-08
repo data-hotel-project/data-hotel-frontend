@@ -1,8 +1,8 @@
-import { iReservation } from "../../interface";
+import { iReservation } from "@interface/reservation";
 import {
   TReservationCreateData,
   TReservationUpdateData,
-} from "../../validators/reservationValidators";
+} from "@validators/reservationValidators";
 
 export interface iStatesProps {
   reservation: iReservation | null;

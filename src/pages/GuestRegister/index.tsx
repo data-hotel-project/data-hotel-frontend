@@ -1,13 +1,10 @@
+import Background from "@components/Background";
+import Button from "@components/Button";
+import Input from "@components/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useGuestStore } from "@stores/GuestStore/useGuestStore";
+import { TGuestFormData, guestSchemaForm } from "@validators/guestValidators";
 import { useForm } from "react-hook-form";
-import Background from "../../components/Background";
-import Button from "../../components/Button";
-import Input from "../../components/Input";
-import { useGuestStore } from "../../stores/GuestStore/useGuestStore";
-import {
-  TGuestFormData,
-  guestSchemaForm,
-} from "../../validators/guestValidators";
 import { StyledBody } from "./style";
 
 const GuestRegister = () => {

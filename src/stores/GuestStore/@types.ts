@@ -1,9 +1,9 @@
-import { iGuest } from "../../interface";
-import { TAuthLoginData } from "../../validators/authValidators";
+import { iGuest } from "@interface/guest";
+import { TAuthLoginData } from "@validators/authValidators";
 import {
   TGuestFormData,
   TGuestUpdateFormData,
-} from "../../validators/guestValidators";
+} from "@validators/guestValidators";
 
 export interface iStatesProps {
   guest: iGuest | null;

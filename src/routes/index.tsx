@@ -1,10 +1,10 @@
+import { AdminDashboard } from "@pages/AdminDashboard";
+import Login from "@pages/AuthLogin";
+import { EmployeeDashboard } from "@pages/EmployeeDashboard";
+import { GuestDashboard } from "@pages/GuestDashboard";
+import GuestRegister from "@pages/GuestRegister";
+import { Home } from "@pages/Home";
 import { Route, Routes } from "react-router-dom";
-import { Home } from "../pages/Home";
-import Login from "../pages/AuthLogin";
-import { GuestDashboard } from "../pages/GuestDashboard";
-import { EmployeeDashboard } from "../pages/EmployeeDashboard";
-import { AdminDashboard } from "../pages/AdminDashboard";
-import GuestRegister from "../pages/GuestRegister";
 import { ProtectedRoutes } from "./ProtectedRoute";
 
 const RoutesMain = () => {

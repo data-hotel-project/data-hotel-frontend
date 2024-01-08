@@ -14,7 +14,6 @@ export const employeeSchemaForm = z.object({
   emergency_num: z.string(),
   aditional_contact: z.string(),
   job_function: z.string(),
-  is_working: z.string(),
   address: addressSchemaForm,
   hotel: z.string(),
 });
@@ -30,7 +29,6 @@ export const employeeSchemaUpdateForm = z
     emergency_num: z.string(),
     aditional_contact: z.string(),
     job_function: z.string(),
-    is_working: z.string(),
     address: addressSchemaUpdateForm,
     hotel: z.string(),
     password_confirmation: z.string(),

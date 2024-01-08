@@ -1,9 +1,9 @@
-import { iEmployee } from "../../interface";
-import { TAuthLoginData } from "../../validators/authValidators";
+import { iEmployee } from "@interface/employee";
+import { TAuthLoginData } from "@validators/authValidators";
 import {
   TEmployeeFormData,
   TEmployeeUpdateFormData,
-} from "../../validators/employeeValidators";
+} from "@validators/employeeValidators";
 
 export interface iStatesProps {
   employee: iEmployee | null;

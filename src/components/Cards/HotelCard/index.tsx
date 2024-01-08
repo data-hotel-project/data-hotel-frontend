@@ -1,6 +1,6 @@
-import { useAuth } from "../../../contexts/AuthContext";
-import { useHotel } from "../../../contexts/HotelContext";
-import { iHotel } from "../../../interface";
+import { useAuth } from "@contexts/AuthContext";
+import { useHotel } from "@contexts/HotelContext";
+import { iHotel } from "@interface/hotel";
 import { StyledHotelCard } from "./style";
 
 interface iHotelCardProps {

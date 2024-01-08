@@ -1,8 +1,8 @@
-import { iHotel } from "../../interface";
+import { iHotel } from "@interface/hotel";
 import {
   THotelCreateFormData,
   THotelUpdateFormData,
-} from "../../validators/hotelValidators";
+} from "@validators/hotelValidators";
 
 export interface IHotelContext {
   hotel: iHotel | null;

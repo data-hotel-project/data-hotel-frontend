@@ -1,12 +1,13 @@
-import { createContext, useContext, useState } from "react";
-import { toast } from "react-toastify";
-import { IChildrenProps, iReservation } from "../../interface";
-import { api } from "../../server/Api";
+import { useAuth } from "@contexts/AuthContext";
+import { IChildrenProps } from "@interface/index";
+import { iReservation } from "@interface/reservation";
+import { api } from "@services/Api";
 import {
   TReservationCreateData,
   TReservationUpdateData,
-} from "../../validators/reservationValidators";
-import { useAuth } from "../AuthContext";
+} from "@validators/reservationValidators";
+import { createContext, useContext, useState } from "react";
+import { toast } from "react-toastify";
 import { iReservationContext } from "./@types";
 
 export const ReservationContext = createContext<iReservationContext>(

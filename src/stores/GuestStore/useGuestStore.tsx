@@ -1,12 +1,12 @@
-import { toast } from "react-toastify";
-import { create } from "zustand";
-import { useAuth } from "../../contexts/AuthContext";
-import { api } from "../../server/Api";
-import { TAuthLoginData } from "../../validators/authValidators";
+import { useAuth } from "@contexts/AuthContext";
+import { api } from "@services/Api";
+import { TAuthLoginData } from "@validators/authValidators";
 import {
   TGuestFormData,
   TGuestUpdateFormData,
-} from "../../validators/guestValidators";
+} from "@validators/guestValidators";
+import { toast } from "react-toastify";
+import { create } from "zustand";
 import { iGuestStore } from "./@types";
 
 export const useGuestStore = () => {

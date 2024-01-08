@@ -1,5 +1,6 @@
+import { iEmployee } from "@interface/employee";
+import { iGuest } from "@interface/guest";
 import { NavigateFunction } from "react-router-dom";
-import { iEmployee, iGuest } from "../../interface";
 
 export interface iAuthProviderData {
   navigate: NavigateFunction;

@@ -1,10 +1,10 @@
+import Button from "@components/Button";
+import { useAuth } from "@contexts/AuthContext";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Button from "../Button";
 import { MenuContainer, StyledHeader, ToggleButton } from "./style";
-import { useAuth } from "../../contexts/AuthContext";
 
 interface iHeaderProps {
   isLogout?: boolean;

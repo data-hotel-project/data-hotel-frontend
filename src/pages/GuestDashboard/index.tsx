@@ -1,6 +1,6 @@
+import { StyledNoisy } from "@components/Background/style";
+import Header from "@components/Header";
 import React from "react";
-import { StyledNoisy } from "../../components/Background/style";
-import Header from "../../components/Header";
 import { StyledDashboard, StyledDashboardH2 } from "./style";
 
 export const GuestDashboard: React.FC = () => {

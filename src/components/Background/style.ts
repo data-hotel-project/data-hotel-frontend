@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import BgImage from "../../assets/bg.jpg";
-import TinyNoisy from "../../assets/tinyNoisy.jpg";
+import BgImage from "@assets/bg.jpg";
+import TinyNoisy from "@assets/tinyNoisy.jpg";
 
 export const StyledBackground = styled.div`
   position: relative;

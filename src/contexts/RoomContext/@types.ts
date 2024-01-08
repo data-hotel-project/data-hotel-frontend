@@ -1,8 +1,5 @@
-import { iRoom } from "../../interface";
-import {
-  TRoomCreateData,
-  TRoomUpdateData,
-} from "../../validators/roomValidators";
+import { iRoom } from "@interface/room";
+import { TRoomCreateData, TRoomUpdateData } from "@validators/roomValidators";
 
 export interface IRoomContext {
   room: iRoom | null;

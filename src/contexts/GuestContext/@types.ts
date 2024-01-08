@@ -1,9 +1,9 @@
-import { iGuest } from "../../interface";
+import { iGuest } from "@interface/guest";
+import { TAuthLoginData } from "@validators/authValidators";
 import {
   TGuestFormData,
   TGuestUpdateFormData,
-} from "../../validators/guestValidators";
-import { TAuthLoginData } from "../../validators/authValidators";
+} from "@validators/guestValidators";
 
 export interface IGuestContext {
   guest: iGuest | null;

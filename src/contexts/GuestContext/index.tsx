@@ -1,14 +1,15 @@
-import { createContext, useContext, useState } from "react";
-import { IGuestContext } from "./@types";
-import { api } from "../../server/Api";
-import { toast } from "react-toastify";
-import { IChildrenProps, iGuest } from "../../interface";
+import { useAuth } from "@contexts/AuthContext";
+import { iGuest } from "@interface/guest";
+import { IChildrenProps } from "@interface/index";
+import { api } from "@services/Api";
+import { TAuthLoginData } from "@validators/authValidators";
 import {
   TGuestFormData,
   TGuestUpdateFormData,
-} from "../../validators/guestValidators";
-import { TAuthLoginData } from "../../validators/authValidators";
-import { useAuth } from "../AuthContext";
+} from "@validators/guestValidators";
+import { createContext, useContext, useState } from "react";
+import { toast } from "react-toastify";
+import { IGuestContext } from "./@types";
 
 export const GuestContext = createContext<IGuestContext>({} as IGuestContext);
 

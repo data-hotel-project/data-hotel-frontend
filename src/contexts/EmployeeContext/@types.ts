@@ -1,9 +1,9 @@
+import { iEmployee } from "@interface/employee";
+import { TAuthLoginData } from "@validators/authValidators";
 import {
   TEmployeeFormData,
   TEmployeeUpdateFormData,
-} from "../../validators/employeeValidators";
-import { iEmployee } from "../../interface";
-import { TAuthLoginData } from "../../validators/authValidators";
+} from "@validators/employeeValidators";
 
 export interface IEmployeeContext {
   employee: iEmployee | null;

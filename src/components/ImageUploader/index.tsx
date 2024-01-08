@@ -1,13 +1,13 @@
+import Button from "@components/Button";
+import { BoxButtonAddImage } from "@components/Forms/UpdateRoomForm/style";
+import Input from "@components/Input";
+import { TRoomUpdateData } from "@validators/roomValidators";
 import React from "react";
 import {
   FieldErrors,
   UseFormGetValues,
   UseFormRegister,
 } from "react-hook-form";
-import { TRoomUpdateData } from "../../validators/roomValidators";
-import Input from "../Input";
-import { BoxButtonAddImage } from "../Forms/UpdateRoomForm/style";
-import Button from "../Button";
 
 interface iImageUploader {
   getFileName: (e: React.ChangeEvent<HTMLInputElement>) => void;

@@ -1,9 +1,12 @@
+import { iEmployee } from "@interface/employee";
+import { iGuest } from "@interface/guest";
+import { IChildrenProps } from "@interface/index";
+import { getLoggedUserResponse } from "@services/getLoggedUserResponse";
+import { isAxiosError } from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IChildrenProps, iEmployee, iGuest } from "../../interface";
-import { iAuthProviderData } from "./@types";
-import { api } from "../../server/Api";
 import { toast } from "react-toastify";
+import { iAuthProviderData } from "./@types";
 
 export const AuthContext = createContext<iAuthProviderData>(
   {} as iAuthProviderData
@@ -15,8 +18,8 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
   const [user, setUser] = useState<iEmployee | iGuest | null>(null);
 
   const token = localStorage.getItem("@DataHotel:TOKEN");
-  const userId = localStorage.getItem("@DataHotel:userID");
   const hotelId = localStorage.getItem("@DataHotel:hotelID");
+  const userId = localStorage.getItem("@DataHotel:userID");
 
   const [showModal, setShowModal] = useState<string>("");
 
@@ -24,41 +27,46 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
     setShowModal("");
   };
 
+  const userLogout = () => {
+    setUser(null);
+    localStorage.removeItem("@DataHotel:hotelID");
+    localStorage.removeItem("@DataHotel:TOKEN");
+    localStorage.removeItem("@DataHotel:userID");
+    navigate("/");
+  };
+
   const getLoggedUser = async () => {
     if (token) {
       try {
-        const response = await api.get("/logged/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUser(response.data.user);
+        const data = await getLoggedUserResponse(token);
 
-        if (token && response.data.user.is_superuser == true) {
+        setUser(data.user);
+
+        if (token && data.user.is_superuser == true) {
           toast.success("Login successfully");
 
           navigate("/adminDashboard");
-        } else if (token && response.data.user.is_staff == true) {
-          localStorage.setItem("@DataHotel:hotelID", response.data.hotel);
+        } else if (token && data.user.is_staff == true) {
+          localStorage.setItem("@DataHotel:hotelID", data.hotel);
 
           navigate("/employeeDashboard");
-        } else if (token && response.data.user.is_staff == false) {
+        } else if (token && data.user.is_staff == false) {
           navigate("/guestDashboard");
         } else {
           navigate("/");
         }
       } catch (error) {
         console.log(error);
+        if (isAxiosError(error)) {
+          if (
+            error.response?.data.messages[0].message ===
+            "Token is invalid or expired"
+          ) {
+            userLogout();
+          }
+        }
       }
     }
-  };
-
-  const userLogout = () => {
-    setUser(null);
-    localStorage.removeItem("@DataHotel:TOKEN");
-    localStorage.removeItem("@DataHotel:userID");
-    localStorage.removeItem("@DataHotel:hotelID");
-    navigate("/");
   };
 
   useEffect(() => {
