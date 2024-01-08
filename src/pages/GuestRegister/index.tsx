@@ -6,11 +6,11 @@ import { useGuestStore } from "@stores/GuestStore/useGuestStore";
 import { TGuestFormData, guestSchemaForm } from "@validators/guestValidators";
 import { useForm } from "react-hook-form";
 import { StyledBody } from "./style";
+import { useAuth } from "@contexts/AuthContext";
 
 const GuestRegister = () => {
-  const {
-    actions: { createGuest },
-  } = useGuestStore()();
+  const { navigate } = useAuth();
+  const createGuest = useGuestStore((state) => state.actions.createGuest);
 
   const {
     register,
@@ -22,7 +22,7 @@ const GuestRegister = () => {
   });
 
   const onSubmit = async (data: TGuestFormData) => {
-    await createGuest(data);
+    await createGuest(data, navigate);
   };
 
   return (

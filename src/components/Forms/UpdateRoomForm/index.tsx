@@ -11,16 +11,15 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { StyledForm } from "./style";
+import { useRoomStore } from "@stores/RoomStore/useRoomStore";
 
 interface iRoomUpdateForm {
   currentRoom: iRoom;
 }
 
 const UpdateRoomForm = ({ currentRoom }: iRoomUpdateForm) => {
-  const { setShowModal } = useAuth();
-  // const {
-  //   actions: { updateRoom },
-  // } = useRoomStore();
+  const { setShowModal, hotelId, token } = useAuth();
+  const updateRoom = useRoomStore((state) => state.actions.updateRoom);
 
   const [imagesField, setImagesField] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<{
@@ -81,7 +80,7 @@ const UpdateRoomForm = ({ currentRoom }: iRoomUpdateForm) => {
     //   formDataObject[key] = value;
     // });
 
-    // await updateRoom(formData, currentRoom.id);
+    await updateRoom(formData, currentRoom.id, hotelId, token);
 
     setShowModal("");
   };

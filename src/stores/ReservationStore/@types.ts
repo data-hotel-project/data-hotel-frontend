@@ -10,14 +10,21 @@ export interface iStatesProps {
 }
 
 export interface iActionProps {
-  createReservation: (formData: TReservationCreateData) => Promise<void>;
+  createReservation: (
+    formData: TReservationCreateData,
+    token: string | null
+  ) => Promise<void>;
   listReservations: () => Promise<void>;
   retrieveReservation: (reservationId: string) => Promise<void>;
   updateReservation: (
     formData: TReservationUpdateData,
-    reservationId: string
+    reservationId: string,
+    token: string | null
   ) => Promise<void>;
-  deleteReservation: (reservationId: string) => Promise<void>;
+  deleteReservation: (
+    reservationId: string,
+    token: string | null
+  ) => Promise<void>;
 }
 
 export interface iReservationStore {

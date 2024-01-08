@@ -1,9 +1,9 @@
 import Button from "@components/Button";
-import { useAuth } from "@contexts/AuthContext";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useAuthStore } from "@stores/AuthStore/useAuthStore";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MenuContainer, StyledHeader, ToggleButton } from "./style";
 
 interface iHeaderProps {
@@ -11,7 +11,9 @@ interface iHeaderProps {
 }
 
 const Header = ({ isLogout }: iHeaderProps) => {
-  const { userLogout } = useAuth();
+  const navigate = useNavigate();
+
+  const userLogout = useAuthStore((state) => state.actions.userLogout);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -58,7 +60,7 @@ const Header = ({ isLogout }: iHeaderProps) => {
             </Link>
           </>
         ) : (
-          <Button size="medium" onClick={() => userLogout()}>
+          <Button size="medium" onClick={() => userLogout(navigate)}>
             Logout
           </Button>
         )}

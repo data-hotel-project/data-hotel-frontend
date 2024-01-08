@@ -5,7 +5,6 @@ import { getLoggedUserResponse } from "@services/ResponseData/auth";
 import { isAxiosError } from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { iAuthProviderData } from "./@types";
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -43,8 +42,6 @@ export const AuthProvider = ({ children }: IChildrenProps) => {
         setUser(data.user);
 
         if (token && data.user.is_superuser == true) {
-          toast.success("Login successfully");
-
           navigate("/adminDashboard");
         } else if (token && data.user.is_staff == true) {
           localStorage.setItem("@DataHotel:hotelID", data.hotel);

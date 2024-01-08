@@ -8,15 +8,17 @@ export interface iStatesProps {
 }
 
 export interface iActionProps {
-  createRoom: (formData: TRoomCreateData) => Promise<void>;
+  createRoom: (formData: TRoomCreateData, token: string) => Promise<void>;
   listAllRooms: () => Promise<void>;
   listRoomsByHotel: (hotelId: string | null) => Promise<void>;
   retrieveRoom: (roomId: string) => Promise<void>;
   updateRoom: (
     formData: TRoomUpdateData | FormData,
-    roomId: string
+    roomId: string,
+    hotelId: string | null,
+    token: string | null
   ) => Promise<void>;
-  deleteRoom: (roomId: string) => Promise<void>;
+  deleteRoom: (roomId: string, token: string) => Promise<void>;
 }
 
 export interface iRoomStore {

@@ -1,23 +1,29 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { BoxIsEmployee, StyledBody } from "./style";
 import Background from "@components/Background";
 import Button from "@components/Button";
 import Input from "@components/Input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { iLoginRequest } from "@interface/index";
+import { useAuthStore } from "@stores/AuthStore/useAuthStore";
 import { useEmployeeStore } from "@stores/EmployeeStore/useEmployeeStore";
 import { useGuestStore } from "@stores/GuestStore/useGuestStore";
 import { authSchemaLogin } from "@validators/authValidators";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { BoxIsEmployee, StyledBody } from "./style";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const {
-    actions: { loginGuest },
-  } = useGuestStore()();
+  const navigate = useNavigate();
+  const [setUser, getLoggedUser] = useAuthStore((state) => [
+    state.actions.setUser,
+    state.actions.getLoggedUser,
+  ]);
 
-  const {
-    actions: { loginEmployee },
-  } = useEmployeeStore()();
+  const loginGuest = useGuestStore((state) => state.actions.loginGuest);
+
+  const loginEmployee = useEmployeeStore(
+    (state) => state.actions.loginEmployee
+  );
 
   const [isEmployee, setIsEmployee] = useState(false);
 
@@ -31,7 +37,9 @@ const Login = () => {
   });
 
   const onSubmit = async (data: iLoginRequest) => {
-    isEmployee ? await loginEmployee(data) : await loginGuest(data);
+    isEmployee
+      ? await loginEmployee(data, setUser, getLoggedUser, navigate)
+      : await loginGuest(data, setUser, getLoggedUser, navigate);
   };
 
   return (
